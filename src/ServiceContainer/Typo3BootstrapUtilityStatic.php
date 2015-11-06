@@ -58,7 +58,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 
 		$dir = scandir($this->instancePath);
 
-		foreach ( $dir AS $entry ) {
+		foreach ($dir AS $entry) {
 			if (is_dir($this->instancePath . '/' . $entry) && $entry != '..' && $entry != '.') {
 				GeneralUtility::rmdir($this->instancePath . '/' . $entry, TRUE);
 			} else if (is_file($this->instancePath . '/' . $entry)) {
@@ -72,6 +72,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 	 * Create folder structure of test instance.
 	 *
 	 * @param array $additionalFoldersToCreate Array of additional folders to be created
+	 *
 	 * @throws Exception
 	 * @return void
 	 */
@@ -80,7 +81,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		$foldersToCreate = array_merge($this->defaultFoldersToCreate, $additionalFoldersToCreate);
 
 		foreach ($foldersToCreate as $folder) {
-			if ( trim($folder) !== '' ) {
+			if (trim($folder) !== '') {
 				$success = mkdir($this->instancePath . $folder, 0777, TRUE);
 				if (!$success) {
 					throw new \Exception(
@@ -97,6 +98,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 	 * Create LocalConfiguration.php file in the test instance
 	 *
 	 * @param array $configurationToMerge
+	 *
 	 * @throws Exception
 	 * @return void
 	 */
@@ -142,9 +144,9 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		}
 
 		// Base of final LocalConfiguration is core factory configuration
-		$finalConfigurationArray = require ORIGINAL_ROOT .'typo3/sysext/core/Configuration/FactoryConfiguration.php';
+		$finalConfigurationArray = require ORIGINAL_ROOT . 'typo3/sysext/core/Configuration/FactoryConfiguration.php';
 
-		$this->mergeRecursiveWithOverrule($finalConfigurationArray, require ORIGINAL_ROOT .'typo3/sysext/core/Build/Configuration/FunctionalTestsConfiguration.php');
+		$this->mergeRecursiveWithOverrule($finalConfigurationArray, require ORIGINAL_ROOT . 'typo3/sysext/core/Build/Configuration/FunctionalTestsConfiguration.php');
 		$this->mergeRecursiveWithOverrule($finalConfigurationArray, $configurationToMerge);
 		$finalConfigurationArray['DB'] = $originalConfigurationArray['DB'];
 
