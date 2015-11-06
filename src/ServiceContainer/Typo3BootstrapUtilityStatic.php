@@ -180,4 +180,21 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		}
 	}
 
+	/**
+	 * Cleanup global variables
+	 */
+	private function cleanupGLOBALS() {
+		unset($GLOBALS['typo3CacheManager']);
+		unset($GLOBALS['typo3CacheFactory']);
+		unset($GLOBALS['TYPO3_LOADED_EXT']);
+		unset($GLOBALS['TYPO3_CONF_VARS']);
+		unset($GLOBALS['TCA']);
+		unset($GLOBALS['TYPO3_MISC']);
+		unset($GLOBALS['T3_VAR']);
+		unset($GLOBALS['T3_SERVICES']);
+		unset($GLOBALS['TBE_MODULES']);
+		unset($GLOBALS['TBE_MODULES_EXT']);
+		unset($GLOBALS['TYPO3_CONF_VARS']);
+		unset($GLOBALS['TCA_DESCR']);
+	}
 }
