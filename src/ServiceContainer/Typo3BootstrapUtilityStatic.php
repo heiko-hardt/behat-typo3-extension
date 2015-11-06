@@ -7,6 +7,24 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 
 	/**
+	 * @var array These folder are always created
+	 */
+	protected $defaultFoldersToCreate = array(
+		'',
+		'/fileadmin',
+		'/typo3temp',
+		'/typo3temp/Cache',
+		'/typo3temp/Cache/Code',
+		'/typo3temp/Cache/Code/cache_core',
+		'/typo3temp/Cache/Code/cache_phpcode',
+		'/typo3temp/Cache/Data',
+		'/typo3temp/Cache/Data/cache_classes',
+		'/typo3conf',
+		'/typo3conf/ext',
+		'/uploads'
+	);
+
+	/**
 	 * Calculates path to TYPO3 CMS test installation for this test case.
 	 *
 	 * @return void
