@@ -182,122 +182,42 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		}
 	}
 
-
-	/**
-	 * Set up creates a test instance and database.
-	 *
-	 * @param string $testCaseClassName         Name of test case class
-	 * @param array  $coreExtensionsToLoad      Array of core extensions to load
-	 * @param array  $testExtensionsToLoad      Array of test extensions to load
-	 * @param array  $pathsToLinkInTestInstance Array of source => destination path pairs to be linked
-	 * @param array  $configurationToUse        Array of TYPO3_CONF_VARS that need to be overridden
-	 * @param array  $additionalFoldersToCreate Array of folder paths to be created
-	 *
-	 * @return string Path to TYPO3 CMS test installation for this test case
-	 */
-	public function setUp(
-		$testCaseClassName,
-		array $coreExtensionsToLoad,
-		array $testExtensionsToLoad,
-		array $pathsToLinkInTestInstance,
-		array $configurationToUse,
-		array $additionalFoldersToCreate
-	) {
-
-		$this->setUpIdentifier($testCaseClassName);
-		$this->setUpInstancePath();
-
-		// cleanup
-		$this->removeOldInstanceIfExists();
-		$this->cleanupGLOBALS();
-
-		// setup
-		$this->setUpInstanceDirectories($additionalFoldersToCreate);
-		$this->setUpInstanceCoreLinks();
-		$this->linkTestExtensionsToInstance($testExtensionsToLoad);
-		$this->linkPathsInTestInstance($pathsToLinkInTestInstance);
-		$this->setUpLocalConfiguration($configurationToUse);
-		$this->setUpPackageStates($coreExtensionsToLoad, $testExtensionsToLoad);
-		$this->setUpBasicTypo3Bootstrap();
-		$this->setUpTestDatabase();
-		\TYPO3\CMS\Core\Core\Bootstrap::getInstance()->loadExtensionTables(TRUE);
-		$this->createDatabaseStructure();
-
-		return $this->instancePath;
-
-	}
-
 	/**
 	 * Bootstrap basic TYPO3
 	 *
 	 * @return void
 	 */
 	protected function setUpBasicTypo3Bootstrap() {
-
 		$_SERVER['PWD'] = $this->instancePath;
 		$_SERVER['argv'][0] = 'index.php';
 
 		define('TYPO3_MODE', 'BE');
 		define('TYPO3_cliMode', TRUE);
 
-		// already loaded
 		require_once $this->instancePath . '/typo3/sysext/core/Classes/Core/CliBootstrap.php';
 		\TYPO3\CMS\Core\Core\CliBootstrap::checkEnvironmentOrDie();
 
-		// already loaded
 		require_once $this->instancePath . '/typo3/sysext/core/Classes/Core/Bootstrap.php';
-
-		/** @var \TYPO3\CMS\Core\Core\Bootstrap $bootstrap */
 		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
 
 		/**
-		 * Overwriting baseSetup
+		 * Ignoring exception
 		 *
-		 * original: $bootstrap->baseSetup('');
+		 * message: 'Trying to override applicationContext which has already been defined!'
+		 * code: 1376084316
+		 * from: Utility\GeneralUtility::presetApplicationContext($this->applicationContext);
 		 */
-		$composerClassLoader = $this->initializeComposerClassLoader();
-		$bootstrap->setEarlyInstance('Composer\\Autoload\\ClassLoader', $composerClassLoader);
-		\TYPO3\CMS\Core\Core\SystemEnvironmentBuilder::run('');
+		try {
+			$bootstrap->baseSetup('');
+		} catch (\Exception $e) {
+			if ( $e->getCode() !== 1376084316 ) {
+				throw $e;
+			}
+		}
 
 		$bootstrap->loadConfigurationAndInitialize(TRUE);
 		$bootstrap->loadTypo3LoadedExtAndExtLocalconf(TRUE);
 		$bootstrap->applyAdditionalConfigurationSettings();
-
 	}
 
-	/**
-	 * @return \Composer\Autoload\ClassLoader
-	 */
-	private function initializeComposerClassLoader() {
-		$respectComposerPackagesForClassLoading = getenv('TYPO3_COMPOSER_AUTOLOAD') ?: (getenv('REDIRECT_TYPO3_COMPOSER_AUTOLOAD') ?: NULL);
-		$possiblePaths = array();
-		if (!empty($respectComposerPackagesForClassLoading)) {
-			$possiblePaths['distribution'] = __DIR__ . '/../../../../../../Packages/Libraries/autoload.php';
-		}
-		$possiblePaths['fallback'] = __DIR__ . '/../../../../contrib/vendor/autoload.php';
-		foreach ($possiblePaths as $possiblePath) {
-			if (file_exists($possiblePath)) {
-				return include $possiblePath;
-			}
-		}
-		throw new \LogicException('No class loading information found for TYPO3 CMS. Please make sure you installed TYPO3 with composer or the typo3/contrib/vendor folder is present.', 1425153762);
-	}
-
-	/**
-	 * Cleanup global variables
-	 */
-	private function cleanupGLOBALS() {
-		unset($GLOBALS['typo3CacheManager']);
-		unset($GLOBALS['typo3CacheFactory']);
-		unset($GLOBALS['TYPO3_LOADED_EXT']);
-		unset($GLOBALS['TYPO3_CONF_VARS']);
-		unset($GLOBALS['TCA']);
-		unset($GLOBALS['TYPO3_MISC']);
-		unset($GLOBALS['T3_VAR']);
-		unset($GLOBALS['T3_SERVICES']);
-		unset($GLOBALS['TBE_MODULES']);
-		unset($GLOBALS['TBE_MODULES_EXT']);
-		unset($GLOBALS['TYPO3_CONF_VARS']);
-		unset($GLOBALS['TCA_DESCR']);
-	}
 }
