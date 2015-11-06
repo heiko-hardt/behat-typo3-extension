@@ -26,9 +26,9 @@ class Typo3Extension implements Extension {
 
 	public function configure(ArrayNodeDefinition $builder) {
 		$builder->
-			children()->
-				scalarNode('parameter_eins')->defaultValue('none')->end()->
-			end()->
+		children()->
+		scalarNode('parameter_eins')->defaultValue('none')->end()->
+		end()->
 		end();
 	}
 

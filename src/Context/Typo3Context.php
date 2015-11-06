@@ -36,6 +36,7 @@ class Typo3Context
 				'Have you enabled the Typo3 Extension?'
 			);
 		}
+
 		return $this->typo3;
 	}
 

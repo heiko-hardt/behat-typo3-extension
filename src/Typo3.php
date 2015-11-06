@@ -7,25 +7,25 @@ use HeikoHardt\Behat\TYPO3Extension\ServiceContainer\Typo3BootstrapUtilityStatic
 
 class Typo3 extends FunctionalTestCase {
 
-	/** @var array  */
+	/** @var array */
 	private $typo3CoreExtensionsToLoad = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3TestExtensionsToLoad = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3PathsToLinkInTestInstance = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3ConfigurationToUseInTestInstance = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3AdditionalFoldersToCreate = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3DatabaseToImport = array();
 
-	/** @var array  */
+	/** @var array */
 	private $typo3FrontendRootPage = array();
 
 	/** @var \TYPO3\CMS\Extbase\Object\ObjectManager */
@@ -34,7 +34,7 @@ class Typo3 extends FunctionalTestCase {
 	/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
 	public $typo3PersistenceManager = NULL;
 
-	public function TYPO3Boot(&$context = NULL, &$scope= NULL) {
+	public function TYPO3Boot(&$context = NULL, &$scope = NULL) {
 
 		if (!defined('ORIGINAL_ROOT'))
 			define('ORIGINAL_ROOT', strtr(getenv('TYPO3_PATH_WEB') ? getenv('TYPO3_PATH_WEB') . '/' : getcwd() . '/', '\\', '/'));
