@@ -26,9 +26,9 @@ class Typo3Extension implements Extension {
 
 	public function configure(ArrayNodeDefinition $builder) {
 		$builder->
-		children()->
-		scalarNode('parameter_eins')->defaultValue('none')->end()->
-		end()->
+			children()->
+				scalarNode('t3_parameter')->defaultValue('none')->end()->
+			end()->
 		end();
 	}
 
@@ -36,7 +36,7 @@ class Typo3Extension implements Extension {
 		$this->loadTypo3($container);
 		$this->loadContextInitializer($container);
 		$container->setParameter('typo3.parameters', $config);
-		$container->setParameter('typo3.parameter_eins', $config['parameter_eins']);
+		$container->setParameter('typo3.t3_parameter', $config['t3_parameter']);
 	}
 
 	private function loadTypo3(ContainerBuilder $container) {

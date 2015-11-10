@@ -34,12 +34,18 @@ class Typo3 extends FunctionalTestCase {
 	/** @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager */
 	public $typo3PersistenceManager = NULL;
 
+	/**
+	 * TYPO3 boot
+	 *
+	 * @param \Behat\Behat\Context\Context $context
+	 * @param \Behat\Behat\Hook\Scope\ScenarioScope $scope
+	 */
 	public function TYPO3Boot(&$context = NULL, &$scope = NULL) {
 
 		if (!defined('ORIGINAL_ROOT'))
 			define('ORIGINAL_ROOT', strtr(getenv('TYPO3_PATH_WEB') ? getenv('TYPO3_PATH_WEB') . '/' : getcwd() . '/', '\\', '/'));
 
-		if (getenv('BEHAT_TYPO3_DOCROOT'))
+		if (getenv('BEHAT_TYPO3_DOCROOT') && !defined('BEHAT_ROOT'))
 			define('BEHAT_ROOT', strtr(getenv('BEHAT_TYPO3_DOCROOT'), '\\', '/'));
 
 		$this->typo3BootstrapUtility = defined('BEHAT_ROOT')
@@ -47,7 +53,7 @@ class Typo3 extends FunctionalTestCase {
 			: new Typo3BootstrapUtilityDynamic();
 
 		$this->typo3InstancePath = $this->typo3BootstrapUtility->setUp(
-			'Heikos Welt',
+			$scope->getFeature()->getFile(),
 			$this->typo3CoreExtensionsToLoad,
 			$this->typo3TestExtensionsToLoad,
 			$this->typo3PathsToLinkInTestInstance,
