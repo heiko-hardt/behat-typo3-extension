@@ -195,6 +195,48 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		define('TYPO3_MODE', 'BE');
 		define('TYPO3_cliMode', TRUE);
 
+		\TYPO3\CMS\Core\Core\SystemEnvironmentBuilder::run('');
+
+		if (TYPO3_branch === '6.2') {
+			$this->bootstrap62();
+		} else {
+			$this->bootstrap76();
+		}
+
+	}
+
+	protected function bootstrap76() {
+
+		$classLoader = require rtrim(realpath($this->instancePath . '/typo3'), '\\/') . '/../vendor/autoload.php';
+
+		$bootstrap = \TYPO3\CMS\Core\Core\Bootstrap::getInstance();
+		$bootstrap->initializeClassLoader($classLoader);
+
+		/**
+		 * Ignoring exception
+		 *
+		 * message: 'Trying to override applicationContext which has already been defined!'
+		 * code: 1376084316
+		 * from: Utility\GeneralUtility::presetApplicationContext($this->applicationContext);
+		 */
+		try {
+			$bootstrap->baseSetup('');
+		} catch (\Exception $e) {
+			if ($e->getCode() !== 1376084316) {
+				throw $e;
+			}
+		}
+
+		$bootstrap->loadConfigurationAndInitialize(TRUE);
+		$bootstrap->loadTypo3LoadedExtAndExtLocalconf(TRUE);
+		$bootstrap->setFinalCachingFrameworkCacheConfiguration();
+		$bootstrap->defineLoggingAndExceptionConstants();
+		$bootstrap->unsetReservedGlobalVariables();
+
+	}
+
+	protected function bootstrap62() {
+
 		require_once $this->instancePath . '/typo3/sysext/core/Classes/Core/CliBootstrap.php';
 		\TYPO3\CMS\Core\Core\CliBootstrap::checkEnvironmentOrDie();
 
