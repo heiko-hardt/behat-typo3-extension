@@ -4,7 +4,7 @@
   "description": "TYPO3 extension for Behat",
   "keywords": ["typo3", "cms", "bdd"],
   "license": "MIT",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "authors": [{ "name": "Heiko Hardt", "email": "typo3.heiko@hardt.me" }],
   "require": {
     "php": ">=5.3.3",
