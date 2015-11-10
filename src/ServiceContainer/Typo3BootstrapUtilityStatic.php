@@ -188,6 +188,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 	 * @return void
 	 */
 	protected function setUpBasicTypo3Bootstrap() {
+
 		$_SERVER['PWD'] = $this->instancePath;
 		$_SERVER['argv'][0] = 'index.php';
 
@@ -210,7 +211,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		try {
 			$bootstrap->baseSetup('');
 		} catch (\Exception $e) {
-			if ( $e->getCode() !== 1376084316 ) {
+			if ($e->getCode() !== 1376084316) {
 				throw $e;
 			}
 		}
@@ -218,6 +219,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 		$bootstrap->loadConfigurationAndInitialize(TRUE);
 		$bootstrap->loadTypo3LoadedExtAndExtLocalconf(TRUE);
 		$bootstrap->applyAdditionalConfigurationSettings();
+
 	}
 
 }
