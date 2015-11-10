@@ -4,13 +4,17 @@
   "description": "TYPO3 extension for Behat",
   "keywords": ["typo3", "cms", "bdd"],
   "license": "MIT",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "authors": [{ "name": "Heiko Hardt", "email": "typo3.heiko@hardt.me" }],
   "require": {
     "php": ">=5.3.3",
-    "behat/behat":  "~3.0,>=3.0.5",
-    "behat/mink":   "~1.5",
-    "behat/mink-extension": "~2.1"
+    "behat/behat":  "~3.0,>=3.0.5"
+  },
+  "suggest": {
+    "behat/mink":                  "Mink testing framework",
+    "behat/mink-extension":        "Mink testing framework integration",
+    "behat/mink-goutte-driver":    "Fast headless driver without Javascript emulation",
+    "behat/mink-selenium2-driver": "Javascript-enabled driver (requires Selenium2)"
   },
   "autoload": {
     "psr-4": {"HeikoHardt\\Behat\\TYPO3Extension\\": "src/"}
