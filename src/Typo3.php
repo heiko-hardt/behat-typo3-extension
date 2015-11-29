@@ -72,7 +72,8 @@ class Typo3 extends FunctionalTestCase {
 		if (count($this->typo3FrontendRootPage) > 0) {
 			$this->setupFrontendRootPage(
 				$this->typo3FrontendRootPage['pageId'],
-				$this->typo3FrontendRootPage['typoscript']
+				$this->typo3FrontendRootPage['typoscript'],
+				$this->typo3FrontendRootPage['typoscriptConstants']
 			);
 		}
 
