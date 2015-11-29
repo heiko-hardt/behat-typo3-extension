@@ -112,10 +112,11 @@ class Typo3 extends FunctionalTestCase {
 		$this->typo3DatabaseToImport = $typo3DatabaseToImport;
 	}
 
-	public function setTYPO3FrontendRootPage($pId = 0, array $typoscript = array()) {
+	public function setTYPO3FrontendRootPage($pId = 0, array $typoscriptConstants = array(), array $typoscriptSetup = array()) {
 		$this->typo3FrontendRootPage = array(
 			'pageId' => $pId,
-			'typoscript' => $typoscript
+			'typoscriptConstants' => $typoscriptConstants,
+			'typoscript' => $typoscriptSetup
 		);
 	}
 
