@@ -72,7 +72,8 @@ class Typo3 extends FunctionalTestCase {
 		if (count($this->typo3FrontendRootPage) > 0) {
 			$this->setupFrontendRootPage(
 				$this->typo3FrontendRootPage['pageId'],
-				$this->typo3FrontendRootPage['typoscript']
+				$this->typo3FrontendRootPage['typoscript'],
+				$this->typo3FrontendRootPage['typoscriptConstants']
 			);
 		}
 
@@ -112,10 +113,11 @@ class Typo3 extends FunctionalTestCase {
 		$this->typo3DatabaseToImport = $typo3DatabaseToImport;
 	}
 
-	public function setTYPO3FrontendRootPage($pId = 0, array $typoscript = array()) {
+	public function setTYPO3FrontendRootPage($pId = 0, array $typoscriptConstants = array(), array $typoscriptSetup = array()) {
 		$this->typo3FrontendRootPage = array(
 			'pageId' => $pId,
-			'typoscript' => $typoscript
+			'typoscriptConstants' => $typoscriptConstants,
+			'typoscript' => $typoscriptSetup
 		);
 	}
 
