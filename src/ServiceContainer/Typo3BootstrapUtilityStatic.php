@@ -29,7 +29,7 @@ class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
 	 *
 	 * @return void
 	 */
-	protected function setUpInstancePath() {
+	protected function setUpInstancePath($testCaseClassName) {
 		$this->instancePath = BEHAT_ROOT;
 	}
 
