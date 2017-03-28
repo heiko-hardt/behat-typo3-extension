@@ -1,10 +1,9 @@
 <?php
 namespace HeikoHardt\Behat\TYPO3Extension\ServiceContainer;
 
-use TYPO3\CMS\Core\Tests\FunctionalTestCaseBootstrapUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Typo3BootstrapUtilityStatic extends FunctionalTestCaseBootstrapUtility {
+class Typo3BootstrapUtilityStatic extends Typo3BootstrapUtilityAbstract {
 
 	/**
 	 * @var array These folder are always created

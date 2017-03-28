@@ -1,9 +1,7 @@
 <?php
 namespace HeikoHardt\Behat\TYPO3Extension\ServiceContainer;
 
-use TYPO3\CMS\Core\Tests\FunctionalTestCaseBootstrapUtility;
-
-class Typo3BootstrapUtilityDynamic extends FunctionalTestCaseBootstrapUtility {
+class Typo3BootstrapUtilityDynamic extends Typo3BootstrapUtilityAbstract {
 
 	/**
 	 * Calculates path to TYPO3 CMS test installation for this test case.
