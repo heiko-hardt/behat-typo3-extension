@@ -1,0 +1,16 @@
+{
+	"name": "Apache-Mod PHP environment",
+	"dockerComposeFile": "../.docker/compose.yaml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"remoteUser": "developer",
+	"forwardPorts": [
+		// apache http
+		8800,
+		// apache https
+		8443,
+		// selenium http
+		7900
+	],
+	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+}
