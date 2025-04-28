@@ -1,10 +1,14 @@
 <?php
-namespace HeikoHardt\Behat\TYPO3Extension;
+
+namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V06;
 
 use TYPO3\CMS\Core\Tests\FunctionalTestCase;
 use HeikoHardt\Behat\TYPO3Extension\ServiceContainer\Typo3BootstrapUtilityDynamic;
 use HeikoHardt\Behat\TYPO3Extension\ServiceContainer\Typo3BootstrapUtilityStatic;
 
+/**
+ * Legacy class
+ */
 class Typo3 extends FunctionalTestCase {
 
 	/** @var array */
