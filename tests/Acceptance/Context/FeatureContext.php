@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HeikoHardt\BehatTypo3Extension\Tests\Acceptance\Context;
+namespace HeikoHardt\Behat\TYPO3Extension\Tests\Acceptance\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
