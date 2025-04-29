@@ -1,0 +1,26 @@
+{
+	"name": "Apache-Mod PHP environment",
+	"dockerComposeFile": "../.docker/compose.yaml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"remoteUser": "developer",
+	"forwardPorts": [
+		// apache http
+		8800,
+		// apache https
+		8443,
+		// selenium http
+		7900
+	],	"customizations": {
+		"vscode": {
+			"extensions": [
+				"bmewburn.vscode-intelephense-client",
+				"cweijan.vscode-mysql-client2",
+				"esbenp.prettier-vscode",
+				"vector-of-bool.gitflow",
+				"xdebug.php-debug"
+			]
+		}
+	},
+	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+}

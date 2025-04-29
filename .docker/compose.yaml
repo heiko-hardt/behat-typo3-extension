@@ -1,0 +1,47 @@
+---
+services:
+    app:
+        # https://hub.docker.com/_/php
+        env_file: .env
+        environment:
+            WEB_DOCUMENT_ROOT: "/var/www/html/public"
+            WEB_ENV_VARS: "TYPO3_CONTEXT Development/Docker,
+                TYPO3_PATH_APP /var/www/html/public,
+                TYPO3_PATH_ROOT /var/www/html/public,
+                TYPO3_PATH_WEB /var/www/html/public"
+            XDEBUG_MODE: "debug,develop"
+        hostname: "app-${COMPOSE_PROJECT_NAME}"
+        image: hhdev/php:8.2-apache-dev
+        user: 1000:1000
+        volumes:
+            - ../..:/workspaces
+
+    sql:
+        # https://hub.docker.com/_/mariadb
+        command:
+          [
+              "mysqld",
+              "--character-set-server=utf8mb4",
+              "--collation-server=utf8mb4_unicode_ci",
+              "--max_allowed_packet=64M",
+          ]
+        env_file: .env
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            MYSQL_DATABASE: ${DB_DATABASE:-mariadb}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-mariapass}
+            MYSQL_USER: ${DB_USER:-mariauser}
+        image: mariadb:10.4
+        network_mode: service:app
+        volumes:
+            - storage_sql:/var/lib/mysql
+
+    selenium:
+        # https://hub.docker.com/r/selenium/standalone-chrome
+        env_file: .env
+        image: selenium/standalone-chrome:124.0
+        network_mode: service:app
+        shm_size: 2gb
+
+volumes:
+    storage_sql: ~

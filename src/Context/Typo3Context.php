@@ -1,59 +1,98 @@
 <?php
+
+declare(strict_types=1);
+
 namespace HeikoHardt\Behat\TYPO3Extension\Context;
 
-use HeikoHardt\Behat\TYPO3Extension\Typo3;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeFeatureScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeStepScope;
+use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
+use HeikoHardt\Behat\TYPO3Extension\Typo3Environment;
 
-class Typo3Context
-	extends Typo3
-	implements Typo3AwareContext {
+class Typo3Context extends RawMinkContext implements Context
+{
 
-	/** @var \HeikoHardt\Behat\TYPO3Extension\Typo3 */
-	private $typo3 = NULL;
+    /** @var array */
+    private $typo3Parameters = array();
 
-	/** @var array */
-	private $typo3Parameters = array();
+    protected $typo3container = null;
 
-	/**
-	 * Set the typo3 instance
-	 * This will be done automaticaly by the Typo3AwareInitializer
-	 *
-	 * @param Typo3 $typo3
-	 */
-	public function setTypo3(Typo3 $typo3) {
-		$this->typo3 = $typo3;
-	}
+    public function getTypo3Parameters()
+    {
+        return $this->typo3Parameters;
+    }
 
-	/**
-	 * Return the Typo3 instance
-	 * This needs to be used if FeatureContext do not extends the Typo3Context
-	 *
-	 * @return Typo3
-	 */
-	public function getTypo3() {
-		if (NULL === $this->typo3) {
-			throw new \RuntimeException(
-				'Typo3 instance has not been set on Typo3 context class. ' .
-				'Have you enabled the Typo3 Extension?'
-			);
-		}
+    public function setTypo3Parameters(array $parameters)
+    {
+        $this->typo3Parameters = $parameters;
+    }
 
-		return $this->typo3;
-	}
+    public function getTypo3Parameter($name)
+    {
+        return isset($this->typo3Parameters[$name]) ? $this->typo3Parameters[$name] : null;
+    }
 
-	public function getTypo3Parameters() {
-		return $this->typo3Parameters;
-	}
+    public function setTypo3Parameter($name, $value)
+    {
+        $this->typo3Parameters[$name] = $value;
+    }
 
-	public function setTypo3Parameters(array $parameters) {
-		$this->typo3Parameters = $parameters;
-	}
+    /**
+     * @BeforeSuite
+     */
+    public static function beforeSuite(BeforeSuiteScope $scope)
+    {
+        $environment = $scope->getEnvironment()->getSuite()->hasSetting('environment')
+            ? $scope->getEnvironment()->getSuite()->getSetting('environment')
+            : [];
 
-	public function getTypo3Parameter($name) {
-		return isset($this->typo3Parameters[$name]) ? $this->typo3Parameters[$name] : NULL;
-	}
+        if (count($environment) > 0) {
+            (new Typo3Environment())->boot($environment);
+        }
+    }
 
-	public function setTypo3Parameter($name, $value) {
-		$this->typo3Parameters[$name] = $value;
-	}
+    /**
+     * @BeforeFeature
+     */
+    public static function beforeFeature(BeforeFeatureScope $scope)
+    {
+        $featureName = basename($scope->getFeature()->getFile(), ".feature");
 
+        $featureList = $scope->getEnvironment()->getSuite()->hasSetting('features')
+            ? $scope->getEnvironment()->getSuite()->getSetting('features')
+            : [];
+
+        $featureConfiguration = key_exists($featureName, $featureList)
+            ? $featureList[$featureName]
+            : [];
+
+        $environment = key_exists('environment', $featureConfiguration)
+            ? $featureConfiguration['environment']
+            : [];
+
+        if (count($environment) > 0) {
+            (new Typo3Environment())->boot($environment);
+        }
+    }
+
+    /** @BeforeScenario */
+    public function beforeScenario(BeforeScenarioScope $scope)
+    {
+        if (is_null($this->typo3container)) {
+            $this->typo3container = (new Typo3Environment())->boot([]);
+        }
+    }
+
+    /**
+     * @BeforeStep
+     */
+    public function beforeStep(BeforeStepScope $scope)
+    {
+        if (is_null($this->typo3container)) {
+            $this->typo3container = (new Typo3Environment())->boot([]);
+        }
+    }
 }

@@ -1,0 +1,11 @@
+/.archive/
+/.idea/
+/.reports/
+/.run/*
+!/.run/history
+/.run/history/*
+!/.run/history/.gitkeep
+/.vendor/*
+!/.vendor/.gitkeep
+/composer.lock
+/public/
