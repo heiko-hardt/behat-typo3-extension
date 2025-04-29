@@ -49,6 +49,37 @@
 			"HeikoHardt\\Behat\\TYPO3Extension\\Tests\\": "tests/"
 		}
 	},
+	"scripts": {
+		"qa": [
+			"mkdir -p .reports/checkstyle",
+			"@qa:static-code-analysis",
+			"@qa:tests"
+		],
+		"qa:static-code-analysis": [
+			"@qa:sca:phpcs",
+			"@qa:sca:phpmd"
+		],
+		"qa:tests": [
+			"@qa:tests:bdd"
+		],
+		"qa:automatic-code-refactoring": [
+			"@qa:acr:cs-fixer"
+		],
+		"qa:sca:phpcs": [
+			"phpcs --config-set ignore_errors_on_exit 1",
+			"phpcs --config-set ignore_warnings_on_exit 1",
+			"phpcs -q --report=checkstyle --report-file=.reports/checkstyle/phpcs.xml --standard=.build/php-cs.xml --extensions=php --ignore=autoload.php src"
+		],
+		"qa:sca:phpmd": [
+			"phpmd ./src xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile .reports/phpmd.xml --suffixes php --ignore-errors-on-exit --ignore-violations-on-exit"
+		],
+		"qa:tests:bdd": [
+			"behat -c tests/Acceptance/behat.yaml --format pretty"
+		],
+		"qa:acr:cs-fixer": [
+			"php-cs-fixer fix --config=.build/php-cs-fixer.php --using-cache=no"
+		]
+	},	
 	"config": {
 		"vendor-dir": ".run/vendor",
 		"bin-dir": ".run/bin",
