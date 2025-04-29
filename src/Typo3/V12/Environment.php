@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V12;
 
 use HeikoHardt\Behat\TYPO3Extension\Helper\Filesystem;
-use HeikoHardt\Behat\TYPO3Extension\Helper\Language;
-use HeikoHardt\Behat\TYPO3Extension\Helper\Site;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractEnvironment;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\V12\Testbase;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
@@ -51,7 +49,7 @@ class Environment extends AbstractEnvironment
 
             $testbase->linkTestExtensionsToInstance(
                 $testInstanceDirectory,
-                $this->configuration['setup']['testExtensionsToLoad']
+                $this->configuration['setup']['testExtensionsToLoad'] ?? []
             );
 
             $testbase->setUpLocalConfiguration(

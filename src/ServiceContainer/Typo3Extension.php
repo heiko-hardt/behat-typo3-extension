@@ -22,16 +22,6 @@ class Typo3Extension implements Extension
         return 'typo3';
     }
 
-    public function initialize(ExtensionManager $extensionManager)
-    {
-        $x = 1;
-    }
-
-    public function process(ContainerBuilder $container)
-    {
-        $x = 1;
-    }
-
     public function configure(ArrayNodeDefinition $builder)
     {
         $builder->

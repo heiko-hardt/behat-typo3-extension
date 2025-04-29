@@ -26,12 +26,6 @@ class Testbase extends AbstractTestbase
     public function importXmlDatabaseFixture($path): void
     {
 
-        if (getenv('TYPO3_BRANCH') === '11.5') {
-
-        } elseif (getenv('TYPO3_BRANCH') === '12.4') {
-
-        }
-
         $path = strpos($path, 'EXT:') === 0
             ? GeneralUtility::getFileAbsFileName($path)
             : $path;

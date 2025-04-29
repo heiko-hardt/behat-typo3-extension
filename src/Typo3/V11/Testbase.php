@@ -6,7 +6,4 @@ namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V11;
 
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractTestbase;
 
-class Testbase extends AbstractTestbase
-{
-
-}
+class Testbase extends AbstractTestbase { }
