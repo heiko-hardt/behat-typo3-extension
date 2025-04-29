@@ -1,6 +1,7 @@
 /.build/ export-ignore
 /.devcontainer/ export-ignore
 /.docker/ export-ignore
+/.github/ export-ignore
 /.run/ export-ignore
 /.vendor/ export-ignore
 /.vscode/ export-ignore
