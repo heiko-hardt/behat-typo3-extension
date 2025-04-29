@@ -8,7 +8,7 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.0.0",
+	"version": "8.0.1",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -24,10 +24,6 @@
 	],
 	"require-dev": {
 		"typo3/cms-core": "^12.4",
-		"typo3/cms-belog": "^12.4",
-		"typo3/cms-fluid-styled-content": "^12.4",
-		"typo3/cms-install": "^12.4",
-		"typo3/cms-tstemplate": "^12.4",
 		"typo3/testing-framework": "^8.2",
 
 		"behat/behat": "^3.19",
@@ -52,6 +48,7 @@
 	"scripts": {
 		"qa": [
 			"mkdir -p .reports/checkstyle",
+			"mkdir -p public",
 			"@qa:static-code-analysis",
 			"@qa:tests"
 		],

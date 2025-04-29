@@ -14,7 +14,6 @@ default:
                         - core
                         - backend
                         - frontend
-                        - belog
                         - extbase
                         - fluid              
                     configurationToUseInTestInstance:
