@@ -11,7 +11,8 @@
 		8443,
 		// selenium http
 		7900
-	],	"customizations": {
+	],	
+	"customizations": {
 		"vscode": {
 			"extensions": [
 				"bmewburn.vscode-intelephense-client",
