@@ -3,9 +3,15 @@
     // Zeigen Sie auf vorhandene Attribute, um die zugehörigen Beschreibungen anzuzeigen.
     // Weitere Informationen finden Sie unter https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [       
+    "configurations": [
         {
-            "name": "Listen for Xdebug",
+            "name": "Xdebug 2",
+            "type": "php",
+            "request": "launch",
+            "port": 9000
+        },
+        {
+            "name": "Xdebug 3",
             "type": "php",
             "request": "launch",
             "port": 9003
