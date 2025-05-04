@@ -1,38 +1,55 @@
 ---
 services:
-    app:
-        # https://hub.docker.com/_/php
+    web:
         env_file: .env
         environment:
+            WEB_SERVER_NAME: "localhost"
+            WEB_SERVER_ALIAS: "127.0.0.1 web web-${COMPOSE_PROJECT_NAME}"
             WEB_DOCUMENT_ROOT: "/var/www/html/public"
             WEB_ENV_VARS: "TYPO3_CONTEXT Development/Docker,
                 TYPO3_PATH_APP /var/www/html/public,
                 TYPO3_PATH_ROOT /var/www/html/public,
                 TYPO3_PATH_WEB /var/www/html/public"
             XDEBUG_MODE: "debug,develop"
-        hostname: "app-${COMPOSE_PROJECT_NAME}"
+            # XDEBUG_CLIENT_HOST: host.docker.internal
+            # ENABLE_COMPOSER_VERSION_1: true
+            # COMPOSER_MEMORY_LIMIT: "-1"
+        hostname: "web-${COMPOSE_PROJECT_NAME}"
+        # image: hhdev/php:5.6-apache-dev-vsc
+        # image: hhdev/php:7.0-apache-dev-vsc
+        # image: hhdev/php:7.1-apache-dev
+        # image: hhdev/php:7.2-apache-dev
+        # image: hhdev/php:7.3-apache-dev
+        # image: hhdev/php:7.4-apache-dev
+        # image: hhdev/php:8.0-apache-dev
+        # image: hhdev/php:8.1-apache-dev
         image: hhdev/php:8.2-apache-dev
-        user: 1000:1000
+        # image: hhdev/php:8.3-apache-dev
+        # image: hhdev/php:8.4-apache-dev
+        ports:
+            - 8801:8800 # Apache httpd server
+            - 7901:7900 # Selenium server
         volumes:
             - ../..:/workspaces
 
     sql:
         # https://hub.docker.com/_/mariadb
         command:
-          [
-              "mysqld",
-              "--character-set-server=utf8mb4",
-              "--collation-server=utf8mb4_unicode_ci",
-              "--max_allowed_packet=64M",
-          ]
+            [
+                "mysqld",
+                "--character-set-server=utf8mb4",
+                "--collation-server=utf8mb4_unicode_ci",
+                "--max_allowed_packet=64M",
+            ]
         env_file: .env
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
             MYSQL_DATABASE: ${DB_DATABASE:-mariadb}
             MYSQL_PASSWORD: ${DB_PASSWORD:-mariapass}
             MYSQL_USER: ${DB_USER:-mariauser}
-        image: mariadb:10.4
-        network_mode: service:app
+        image: mariadb:10.4 # used for TYPO3 10.x => 13.x
+        # image: mysql:5.6
+        network_mode: service:web
         volumes:
             - storage_sql:/var/lib/mysql
 
@@ -40,7 +57,7 @@ services:
         # https://hub.docker.com/r/selenium/standalone-chrome
         env_file: .env
         image: selenium/standalone-chrome:124.0
-        network_mode: service:app
+        network_mode: service:web
         shm_size: 2gb
 
 volumes:

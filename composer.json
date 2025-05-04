@@ -8,7 +8,7 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.0.1",
+	"version": "8.0.2",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -76,7 +76,7 @@
 		"qa:acr:cs-fixer": [
 			"php-cs-fixer fix --config=.build/php-cs-fixer.php --using-cache=no"
 		]
-	},	
+	},
 	"config": {
 		"vendor-dir": ".run/vendor",
 		"bin-dir": ".run/bin",
@@ -87,6 +87,7 @@
 	},
 	"extra": {
 		"typo3/cms": {
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"web-dir": ".run/public"
 		}
 	}

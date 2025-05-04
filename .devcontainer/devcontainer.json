@@ -1,17 +1,9 @@
 {
 	"name": "Apache-Mod PHP environment",
 	"dockerComposeFile": "../.docker/compose.yaml",
-	"service": "app",
+	"service": "web",
 	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"remoteUser": "developer",
-	"forwardPorts": [
-		// apache http
-		8800,
-		// apache https
-		8443,
-		// selenium http
-		7900
-	],	
 	"customizations": {
 		"vscode": {
 			"extensions": [
