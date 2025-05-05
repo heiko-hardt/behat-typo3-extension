@@ -1,9 +1,10 @@
+// For format details, see https://aka.ms/vscode-remote/devcontainer.json
 {
+	// General devcontainer.json properties
+	// https://containers.dev/implementors/json_reference/#general-properties
 	"name": "Apache-Mod PHP environment",
-	"dockerComposeFile": "../.docker/compose.yaml",
-	"service": "web",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 	"remoteUser": "developer",
+	"shutdownAction": "stopCompose",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -15,5 +16,15 @@
 			]
 		}
 	},
-	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+
+	// Docker Compose specific properties
+	// https://containers.dev/implementors/json_reference/#compose-specific
+	"dockerComposeFile": "../.docker/compose.yaml",
+	"service": "web",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+	// Lifecycle scripts
+	// https://containers.dev/implementors/json_reference/#lifecycle-scripts
+	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html",
+	"postStartCommand": "echo 'Hello wordl!!!'"
 }

@@ -14,7 +14,6 @@ services:
             # XDEBUG_CLIENT_HOST: host.docker.internal
             # ENABLE_COMPOSER_VERSION_1: true
             # COMPOSER_MEMORY_LIMIT: "-1"
-        hostname: "web-${COMPOSE_PROJECT_NAME}"
         # image: hhdev/php:5.6-apache-dev-vsc
         # image: hhdev/php:7.0-apache-dev-vsc
         # image: hhdev/php:7.1-apache-dev
@@ -26,13 +25,11 @@ services:
         image: hhdev/php:8.2-apache-dev
         # image: hhdev/php:8.3-apache-dev
         # image: hhdev/php:8.4-apache-dev
-        ports:
-            - 8801:8800 # Apache httpd server
-            - 7901:7900 # Selenium server
+        network_mode: service:db
         volumes:
             - ../..:/workspaces
 
-    sql:
+    db:
         # https://hub.docker.com/_/mariadb
         command:
             [
@@ -49,7 +46,7 @@ services:
             MYSQL_USER: ${DB_USER:-mariauser}
         image: mariadb:10.4 # used for TYPO3 10.x => 13.x
         # image: mysql:5.6
-        network_mode: service:web
+        network_mode: service:selenium
         volumes:
             - storage_sql:/var/lib/mysql
 
@@ -57,7 +54,9 @@ services:
         # https://hub.docker.com/r/selenium/standalone-chrome
         env_file: .env
         image: selenium/standalone-chrome:124.0
-        network_mode: service:web
+        ports:
+            - 8801:8800 # Apache httpd server
+            - 7901:7900 # Selenium server
         shm_size: 2gb
 
 volumes:
