@@ -26,5 +26,5 @@
 	// Lifecycle scripts
 	// https://containers.dev/implementors/json_reference/#lifecycle-scripts
 	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html",
-	"postStartCommand": "echo 'Hello wordl!!!'"
+	"postStartCommand": "/bin/bash .devcontainer/welcome-message.sh"
 }
