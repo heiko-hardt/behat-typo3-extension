@@ -4,6 +4,7 @@
 	// https://containers.dev/implementors/json_reference/#general-properties
 	"name": "Apache-Mod PHP environment",
 	"remoteUser": "developer",
+	"overrideCommand": false,
 	"shutdownAction": "stopCompose",
 	"customizations": {
 		"vscode": {
