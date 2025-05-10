@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <sys_template>
+        <uid>1</uid>
+        <pid>1</pid>
+        <title>Root Template</title>
+        <root>1</root>
+        <clear>3</clear>
+        <include_static_file>
+            EXT:fluid_styled_content/Configuration/TypoScript/,EXT:dev_template/Configuration/TypoScript
+        </include_static_file>
+        <constants><![CDATA[
+config {
+	headerTitle = TYPO3 Dev.Sandbox
+	pids.Home = 1
+	pids.Meta = 5000
+}
+# <INCLUDE_TYPOSCRIPT: source="FILE:EXT:dev_template/Configuration/TypoScript/constants.typoscript">
+        ]]></constants>
+        <config><![CDATA[
+# <INCLUDE_TYPOSCRIPT: source="FILE:EXT:dev_template/Configuration/TypoScript/setup.typoscript">
+        ]]></config>
+    </sys_template>
+</dataset>

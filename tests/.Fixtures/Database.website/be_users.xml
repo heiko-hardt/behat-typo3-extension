@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <be_users>
+        <uid>1</uid>
+        <pid>0</pid>
+        <username>developer</username>
+        <!-- password: P@ssw0rd -->
+        <password>$pbkdf2-sha256$25000$uE6juc6vgcrXX5Cuz8Whhg$gTkCiXch6sxWhV7h3Rot9zDQQbYAszv/6bmMjiVtsWQ</password>
+        <realName>Devel.Oper</realName>
+        <email>devel.oper@hardt.dev</email>
+        <admin>1</admin>
+        <workspace_perms>1</workspace_perms>
+    </be_users>
+</dataset>

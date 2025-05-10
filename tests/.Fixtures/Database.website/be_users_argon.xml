@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <be_users>
+        <uid>1</uid>
+        <pid>0</pid>
+        <username>developer</username>
+        <!-- password: P@ssw0rd -->
+        <password>$argon2i$v=19$m=65536,t=16,p=1$OXIvWTZGUldrSFpCU1ZxMg$iEH7uqF6RWN7UcOoqqBhjX72Xr5EB78DoCvawBcG9p8</password>
+        <realName>Devel.Oper</realName>
+        <email>devel.oper@hardt.dev</email>
+        <admin>1</admin>
+        <workspace_perms>1</workspace_perms>
+    </be_users>
+</dataset>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+	<pages>
+		<uid>1</uid>
+		<pid>0</pid>
+		<title>Root - Default</title>
+		<sorting>128</sorting>
+		<doktype>1</doktype>
+		<is_siteroot>1</is_siteroot>
+	</pages>
+
+	<pages>
+		<uid>2</uid>
+		<pid>1</pid>
+		<title>Subpage</title>
+		<sorting>128</sorting>
+		<doktype>1</doktype>
+	</pages>
+</dataset>

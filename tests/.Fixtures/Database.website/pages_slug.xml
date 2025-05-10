@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+
+	<pages>
+		<uid>0001</uid>
+		<pid>0</pid>
+		<title>Root - Default</title>
+		<sorting>128</sorting>
+		<slug>/</slug>
+		<nav_title>Home</nav_title>
+		<doktype>1</doktype>
+		<is_siteroot>1</is_siteroot>
+		<backend_layout>pagets__homepage</backend_layout>
+		<backend_layout_next_level>pagets__standard3col</backend_layout_next_level>
+	</pages>
+
+	<!-- PRIMARY 1
+    ################################################################################################################ -->
+	<pages>
+		<uid>1000</uid>
+		<pid>0001</pid>
+		<sorting>10</sorting>
+		<title>Primary 1</title>
+		<slug>/primary-1</slug>
+		<doktype>1</doktype>
+		<backend_layout>pagets__standard3col</backend_layout>
+		<backend_layout_next_level>pagets__standard2col</backend_layout_next_level>
+	</pages>
+	<pages>
+		<uid>1010</uid>
+		<pid>1000</pid>
+		<sorting>10</sorting>
+		<title>Secundary 1-1</title>
+		<slug>/primary-1/secundary-1-1</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>1020</uid>
+		<pid>1000</pid>
+		<sorting>20</sorting>
+		<title>Secundary 1-2</title>
+		<slug>/primary-1/secundary-1-2</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>1030</uid>
+		<pid>1000</pid>
+		<sorting>30</sorting>
+		<title>Secundary 1-3</title>
+		<slug>/primary-1/secundary-1-3</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>1040</uid>
+		<pid>1000</pid>
+		<sorting>40</sorting>
+		<title>Secundary 1-4</title>
+		<slug>/primary-1/secundary-1-4</slug>
+		<doktype>1</doktype>
+	</pages>
+
+	<!-- PRIMARY 2
+    ################################################################################################################ -->
+	<pages>
+		<uid>2000</uid>
+		<pid>0001</pid>
+		<sorting>20</sorting>
+		<title>Primary 2</title>
+		<slug>/primary-2</slug>
+		<doktype>1</doktype>
+		<backend_layout>pagets__standard3col</backend_layout>
+		<backend_layout_next_level>pagets__standard2col</backend_layout_next_level>
+	</pages>
+	<pages>
+		<uid>2010</uid>
+		<pid>2000</pid>
+		<sorting>10</sorting>
+		<title>Secundary 2-1</title>
+		<slug>/primary-2/secundary-2-1</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>2020</uid>
+		<pid>2000</pid>
+		<sorting>20</sorting>
+		<title>Secundary 2-2</title>
+		<slug>/primary-2/secundary-2-2</slug>
+		<doktype>1</doktype>
+	</pages>
+
+	<!-- PRIMARY 3
+    ################################################################################################################ -->
+	<pages>
+		<uid>3000</uid>
+		<pid>0001</pid>
+		<sorting>30</sorting>
+		<title>Primary 3</title>
+		<slug>/primary-3</slug>
+		<doktype>1</doktype>
+		<backend_layout>pagets__standard3col</backend_layout>
+		<backend_layout_next_level>pagets__standard2col</backend_layout_next_level>
+	</pages>
+	<pages>
+		<uid>3010</uid>
+		<pid>3000</pid>
+		<sorting>10</sorting>
+		<title>Secundary 3-1</title>
+		<slug>/primary-3/secundary-3-1</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>3020</uid>
+		<pid>3000</pid>
+		<sorting>20</sorting>
+		<title>Secundary 3-2</title>
+		<slug>/primary-3/secundary-3-2</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>3030</uid>
+		<pid>3000</pid>
+		<sorting>30</sorting>
+		<title>Secundary 3-3</title>
+		<slug>/primary-3/secundary-3-3</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>3040</uid>
+		<pid>3000</pid>
+		<sorting>40</sorting>
+		<title>Secundary 3-4</title>
+		<slug>/primary-3/secundary-3-4</slug>
+		<doktype>1</doktype>
+	</pages>
+
+	<!-- PRIMARY 4
+    ################################################################################################################ -->
+	<pages>
+		<uid>4000</uid>
+		<pid>0001</pid>
+		<sorting>40</sorting>
+		<title>Primary 4</title>
+		<slug>/primary-4</slug>
+		<doktype>1</doktype>
+		<backend_layout>pagets__standard3col</backend_layout>
+		<backend_layout_next_level>pagets__standard2col</backend_layout_next_level>
+	</pages>
+	<pages>
+		<uid>4010</uid>
+		<pid>4000</pid>
+		<sorting>10</sorting>
+		<title>Secundary 4-1</title>
+		<slug>/primary-4/secundary-4-1</slug>
+		<doktype>1</doktype>
+	</pages>
+	<pages>
+		<uid>4020</uid>
+		<pid>4000</pid>
+		<sorting>20</sorting>
+		<title>Secundary 4-2</title>
+		<slug>/primary-4/secundary-4-2</slug>
+		<doktype>1</doktype>
+	</pages>
+
+	<!-- Meta Navigation
+    ################################################################################################################ -->
+	<pages>
+		<uid>5000</uid>
+		<pid>0001</pid>
+		<sorting>60</sorting>
+		<title>Meta</title>
+		<slug>/meta</slug>
+		<doktype>254</doktype>
+	</pages>
+	<pages>
+		<uid>5010</uid>
+		<pid>5000</pid>
+		<sorting>10</sorting>
+		<title>Pri.1</title>
+		<slug>/pri1</slug>
+		<doktype>4</doktype>
+		<shortcut>1000</shortcut>
+	</pages>
+	<pages>
+		<uid>5020</uid>
+		<pid>5000</pid>
+		<sorting>20</sorting>
+		<title>Pri.2</title>
+		<slug>/pri2</slug>
+		<doktype>4</doktype>
+		<shortcut>2000</shortcut>
+	</pages>
+	<pages>
+		<uid>5030</uid>
+		<pid>5000</pid>
+		<sorting>30</sorting>
+		<title>Pri.3</title>
+		<slug>/pri3</slug>
+		<doktype>4</doktype>
+		<shortcut>3000</shortcut>
+	</pages>
+	<pages>
+		<uid>5040</uid>
+		<pid>5000</pid>
+		<sorting>40</sorting>
+		<title>Pri.4</title>
+		<slug>/pri4</slug>
+		<doktype>4</doktype>
+		<shortcut>4000</shortcut>
+	</pages>
+
+	<!-- Global Storage (Sub-)Folder
+    ################################################################################################################ -->
+	<pages>
+		<uid>6000</uid>
+		<pid>0001</pid>
+		<sorting>80</sorting>
+		<title>Global Storage Folder</title>
+		<slug>/storage</slug>
+		<doktype>254</doktype>
+	</pages>
+
+</dataset>
