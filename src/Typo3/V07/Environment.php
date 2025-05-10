@@ -18,7 +18,6 @@ class Environment extends FunctionalTestCase
         $this->mapDatabaseConfiguration();
 
         if (isset($this->configuration['setup'])) {
-
             $this->testbase = new Testbase();
             $this->testbase->setUp(
                 get_class($this),
@@ -54,7 +53,8 @@ class Environment extends FunctionalTestCase
         putenv('typo3DatabasePort=' . getenv('TESTING_DB_PORT'));
     }
 
-    protected function getDefaultExtensionsToLoad() {
+    protected function getDefaultExtensionsToLoad()
+    {
         return [
             'core',
             'wizard_sortpages',
