@@ -181,9 +181,15 @@ class Filesystem
 
     public static function setUpInstanceHtaccess(
         $originDirectoryPath,
-        $testingDirectoryPath
+        $testingDirectoryPath,
+        $absoluteFilePath = null
     ): bool {
-        if (is_file($originDirectoryPath . '/vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess')) {
+        if ($absoluteFilePath && is_file($absoluteFilePath)) {
+            return copy(
+                $absoluteFilePath,
+                $testingDirectoryPath . '/.htaccess'
+            );
+        } elseif (is_file($originDirectoryPath . '/vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess')) {
             return copy(
                 $originDirectoryPath . '/vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess',
                 $testingDirectoryPath . '/.htaccess'

@@ -35,7 +35,6 @@ abstract class AbstractEnvironment
 
     public function boot()
     {
-
     }
 
     protected function cleanupFilesystem($testInstanceDirectory)

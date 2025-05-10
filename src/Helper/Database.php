@@ -17,24 +17,33 @@ class Database
         string $user,
         string $password
     ) {
+        $dbalVersion = \Composer\InstalledVersions::getPrettyVersion('doctrine/dbal');
+        
         /** @var Connection $connection */
         $connection = self::getConnection('mysqli', $host, $port, $database, $user, $password);
-        if (version_compare(\Composer\InstalledVersions::getPrettyVersion('doctrine/dbal'), '3.0.0', '<')) {
+        if (version_compare($dbalVersion, '3.0.0', '<')) {
             /** @var MySqlSchemaManager $schemaManager */
             $schemaManager = $connection->getSchemaManager();
-            // 10:
+            // Fetch tables in database
+            $tableNames = $schemaManager->listTableNames();
+            // Drop all tables in database
+            $connection->exec('SET FOREIGN_KEY_CHECKS = 0;');
+            foreach ($tableNames as $tableName) {
+                $connection->exec('DROP TABLE ' . $tableName);
+            }
+            $connection->exec('SET FOREIGN_KEY_CHECKS = 1;');
         } else {
             /** @var MySqlSchemaManager $schemaManager */
             $schemaManager = $connection->createSchemaManager();
+            // Fetch tables in database
+            $tableNames = $schemaManager->listTableNames();
+            // Drop all tables in database
+            $connection->prepare('SET FOREIGN_KEY_CHECKS = 0;')->executeQuery();
+            foreach ($tableNames as $tableName) {
+                $connection->prepare('DROP TABLE ' . $tableName)->executeQuery();
+            }
+            $connection->prepare('SET FOREIGN_KEY_CHECKS = 1;')->executeQuery();
         }
-        // Fetch tables in database
-        $tableNames = $schemaManager->listTableNames();
-        // Drop all tables in database
-        $connection->prepare('SET FOREIGN_KEY_CHECKS = 0;')->executeQuery();
-        foreach ($tableNames as $tableName) {
-            $connection->prepare('DROP TABLE ' . $tableName)->executeQuery();
-        }
-        $connection->prepare('SET FOREIGN_KEY_CHECKS = 1;')->executeQuery();
     }
 
     public static function getConnection(

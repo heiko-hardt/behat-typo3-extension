@@ -65,11 +65,11 @@ class Typo3Context extends RawMinkContext implements Context
             ? $scope->getEnvironment()->getSuite()->getSetting('features')
             : [];
 
-        $featureConfiguration = key_exists($featureName, $featureList)
+        $featureConfiguration = array_key_exists($featureName, $featureList)
             ? $featureList[$featureName]
             : [];
 
-        $environment = key_exists('environment', $featureConfiguration)
+        $environment = array_key_exists('environment', $featureConfiguration)
             ? $featureConfiguration['environment']
             : [];
 
