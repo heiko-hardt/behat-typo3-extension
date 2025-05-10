@@ -11,7 +11,9 @@
 			"extensions": [
 				"bmewburn.vscode-intelephense-client",
 				"cweijan.vscode-mysql-client2",
+				"DotJoshJohnson.xml",
 				"esbenp.prettier-vscode",
+				"ms-vscode.makefile-tools",
 				"vector-of-bool.gitflow",
 				"xdebug.php-debug"
 			]

@@ -23,23 +23,22 @@
 		}
 	],
 	"require-dev": {
-		"typo3/cms-core": "^13.4",
-		"typo3/coding-standards": "^0.8",
-		"typo3/testing-framework": "^9.2",
-		
+		"typo3/cms-core": "^8.7",
+		"typo3/coding-standards": "^0.6",
+		"typo3/testing-framework": "^1.3",
+
 		"behat/behat": "^3.15",
 		"behat/mink": "^1.12",
 		"friends-of-behat/mink-extension": "^2.x-dev",
 		"mink/webdriver-classic-driver": "^1.1",
 
-		"helmich/typo3-typoscript-lint": "^3.3",
+		"helmich/typo3-typoscript-lint": "^2.5",
 		"phpmd/phpmd": "^2.15",
 		"squizlabs/php_codesniffer": "^3.7",
 		"rector/rector": "^2.0",
 
-		"heikohardt/dev-template": "^3.0",
-		"typo3/cms-fluid-styled-content": "*",
-		"typo3/cms-install": "*"
+		"heikohardt/dev-template": "^2.0",
+		"typo3/cms-fluid-styled-content": "*"
 	},
 	"autoload": {
 		"psr-4": {

@@ -19,10 +19,10 @@ services:
         # image: hhdev/php:7.1-apache-dev
         # image: hhdev/php:7.2-apache-dev
         # image: hhdev/php:7.3-apache-dev
-        # image: hhdev/php:7.4-apache-dev
+        image: hhdev/php:7.4-apache-dev
         # image: hhdev/php:8.0-apache-dev
         # image: hhdev/php:8.1-apache-dev
-        image: hhdev/php:8.2-apache-dev
+        # image: hhdev/php:8.2-apache-dev
         # image: hhdev/php:8.3-apache-dev
         # image: hhdev/php:8.4-apache-dev
         network_mode: service:db

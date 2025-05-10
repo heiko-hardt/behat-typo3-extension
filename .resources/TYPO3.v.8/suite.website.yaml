@@ -1,0 +1,35 @@
+---
+default:
+    suites:
+        Frontend.Website:
+            paths:
+                - "%paths.base%/Features/Frontend.Website"
+            contexts:
+                - HeikoHardt\Behat\TYPO3Extension\Tests\Acceptance\Context\FeatureContext
+                - HeikoHardt\Behat\TYPO3Extension\Tests\Acceptance\Context\TYPO3Context
+            environment:
+                setup:
+                    # default: core, backend, frontend, lang, extbase, install
+                    coreExtensionsToLoad:
+                        - extensionmanager
+                        - fluid
+                        - fluid_styled_content
+                        - saltedpasswords
+                        - sv
+                    testExtensionsToLoad:
+                        - dev_template
+                    configurationToUseInTestInstance:
+                        MAIL:
+                            transport: mbox
+                            transport_mbox_file: /tmp/mail_file
+                        BE:
+                            installToolPassword: "$pbkdf2-sha256$25000$0pL5lLbzoQDWYpFj9k5cRw$UBJIBTLdmv6G0RB2c2cX817rvk.u4VtpEC/CMb1kEew"
+                    siteConfigurationAdditional:
+                        dependencies:
+                            - heikohardt/dev-site-package
+                fixtures:
+                    xmlDatabaseFixtures:
+                        - /var/www/html/tests/.Fixtures/Database.website/be_users.xml
+                        - /var/www/html/tests/.Fixtures/Database.website/pages.xml
+                        - /var/www/html/tests/.Fixtures/Database.website/tt_content.xml
+                        - /var/www/html/tests/.Fixtures/Database.website/sys_template.xml

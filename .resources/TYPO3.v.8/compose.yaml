@@ -19,10 +19,10 @@ services:
         # image: hhdev/php:7.1-apache-dev
         # image: hhdev/php:7.2-apache-dev
         # image: hhdev/php:7.3-apache-dev
-        # image: hhdev/php:7.4-apache-dev
+        image: hhdev/php:7.4-apache-dev
         # image: hhdev/php:8.0-apache-dev
         # image: hhdev/php:8.1-apache-dev
-        image: hhdev/php:8.2-apache-dev
+        # image: hhdev/php:8.2-apache-dev
         # image: hhdev/php:8.3-apache-dev
         # image: hhdev/php:8.4-apache-dev
         network_mode: service:db
@@ -44,11 +44,11 @@ services:
             MYSQL_DATABASE: ${DB_DATABASE:-mariadb}
             MYSQL_PASSWORD: ${DB_PASSWORD:-mariapass}
             MYSQL_USER: ${DB_USER:-mariauser}
-        # image: mysql:5.6         # used for TYPO3 6.x => 9.x
-        image: mariadb:10.4        # used for TYPO3 10.x => 13.x
+        image: mysql:5.6         # used for TYPO3 6.x => 9.x
+        # image: mariadb:10.4    # used for TYPO3 10.x => 13.x
         network_mode: service:selenium
         volumes:
-            - storage_mariadb:/var/lib/mysql
+            - storage_mysql:/var/lib/mysql
 
     selenium:
         # https://hub.docker.com/r/selenium/standalone-chrome
@@ -60,4 +60,4 @@ services:
         shm_size: 2gb
 
 volumes:
-    storage_mariadb: ~
+    storage_mysql: ~
