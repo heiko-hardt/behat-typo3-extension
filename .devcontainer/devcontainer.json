@@ -24,7 +24,7 @@
 	// https://containers.dev/implementors/json_reference/#compose-specific
 	"dockerComposeFile": "../.docker/compose.yaml",
 	"service": "web",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"workspaceFolder": "/workspaces",
 
 	// Lifecycle scripts
 	// https://containers.dev/implementors/json_reference/#lifecycle-scripts
