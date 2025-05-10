@@ -6,6 +6,9 @@ namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V13;
 
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractTestbase;
+use Psr\Container\ContainerInterface;
+use TYPO3\CMS\Core\Configuration\SiteConfiguration;
+use TYPO3\CMS\Core\Configuration\SiteWriter;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -108,6 +111,26 @@ class Testbase extends AbstractTestbase
                 $elementId = (string)$table['id'];
                 $foreignKeys[$tableName][$elementId] = $connection->lastInsertId($tableName);
             }
+        }
+    }
+
+    public function createSiteConfiguration(
+        ContainerInterface $container,
+        ?array $siteConfiguration = null,
+        ?array $siteConfigurationAdditional = null
+    ): void {
+        /** @var SiteWriter $siteWriter */
+        $siteWriter = $container->get(SiteWriter::class);
+        if ($siteConfiguration) {
+            $siteWriter->write('website-local', $siteConfiguration);
+        } else {
+            $siteWriter->createNewBasicSite('website-local', 1, getenv('TYPO3_URL') ?: 'http://localhost');
+        }
+        if ($siteConfigurationAdditional) {
+            $siteConfiguration = $container->get(SiteConfiguration::class);
+            $site = $siteConfiguration->load('website-local');
+            $site = array_merge_recursive($site, $siteConfigurationAdditional);
+            $siteWriter->write('website-local', $site);
         }
     }
 }
