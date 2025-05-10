@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V10;
 
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractTestbase;
+use Psr\Container\ContainerInterface;
+use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 use TYPO3\TestingFramework\Core\Exception;
 
 class Testbase extends AbstractTestbase
 {
-    public function setUpInstanceCoreLinks(
-        $instancePath
-    ): void {
+    public function setUpInstanceCoreLinks($instancePath): void
+    {
 
         /* original ######################################################
         $linksToSet = [
@@ -19,19 +20,17 @@ class Testbase extends AbstractTestbase
             'typo3_src/typo3/sysext/' => $instancePath . '/typo3/sysext',
         ];
         // ############################################################ */
-
         $linksToSet = [
             getenv('TYPO3_PATH_WEB') => $instancePath . '/typo3_src',
             getenv('TYPO3_PATH_WEB') . '/typo3/sysext/' => $instancePath . '/typo3/sysext',
         ];
 
         chdir($instancePath);
-
         $this->createDirectory($instancePath . '/typo3');
         foreach ($linksToSet as $from => $to) {
             $success = symlink(realpath($from), $to);
             if (!$success) {
-                throw new Exception(
+                throw new \Exception(
                     'Creating link failed: from ' . $from . ' to: ' . $to,
                     1376657199
                 );
@@ -47,13 +46,20 @@ class Testbase extends AbstractTestbase
             $instancePath . '/typo3/sysext/install/Resources/Private/Php/install.php' => $instancePath . '/typo3/install.php',
         ];
 
+        /* original ######################################################
+        $autoloadFile = dirname(__DIR__, 4) . '/autoload.php';
+        // ############################################################ */
+        $autoloadFile = isset($GLOBALS['_composer_autoload_path'])
+            ? $GLOBALS['_composer_autoload_path']
+            : dirname(__DIR__, 4) . '/autoload.php';
+
         foreach ($entryPointsToSet as $source => $target) {
             if (($entryPointContent = file_get_contents($source)) === false) {
                 throw new \UnexpectedValueException(sprintf('Source file (%s) was not found.', $source), 1636244753);
             }
             $entryPointContent = (string)preg_replace(
                 '/__DIR__ \. \'[^\']+\'/',
-                $this->findShortestPathCode($target, realpath(PHPUNIT_COMPOSER_INSTALL)),
+                $this->findShortestPathCode($target, $autoloadFile),
                 $entryPointContent
             );
             $entryPointContent = (string)preg_replace(
@@ -97,4 +103,30 @@ class Testbase extends AbstractTestbase
         return $commonPathCode . ($relTarget !== '' ? ' . ' . var_export('/' . $relTarget, true) : '');
     }
 
+    public function linkTestExtensionsToInstance($instancePath, array $extensionPaths): void
+    {
+        foreach ($extensionPaths as $key => $extensionPath) {
+            $extensionPaths[$key] = 'typo3conf/ext/' . $extensionPath;
+        }
+        parent::linkTestExtensionsToInstance($instancePath, $extensionPaths);
+    }
+
+    public function createSiteConfiguration(
+        ContainerInterface $container,
+        ?array $siteConfiguration = null,
+        ?array $siteConfigurationAdditional = null
+    ): void {
+        /** @var SiteConfiguration $configurationService */
+        $configurationService = $container->get(SiteConfiguration::class);
+        if ($siteConfiguration) {
+            $configurationService->write('website-local', $siteConfiguration);
+        } else {
+            $configurationService->createNewBasicSite('website-local', 1, getenv('TYPO3_URL') ?: 'http://localhost');
+        }
+        if ($siteConfigurationAdditional) {
+            $site = $configurationService->load('website-local');
+            $site = array_merge_recursive($site, $siteConfigurationAdditional);
+            $configurationService->write('website-local', $site);
+        }
+    }
 }
