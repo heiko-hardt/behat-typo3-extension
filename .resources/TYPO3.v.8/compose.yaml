@@ -1,0 +1,63 @@
+---
+services:
+    web:
+        env_file: .env
+        environment:
+            WEB_SERVER_NAME: "localhost"
+            WEB_SERVER_ALIAS: "127.0.0.1 web web-${COMPOSE_PROJECT_NAME}"
+            WEB_DOCUMENT_ROOT: "/var/www/html/public"
+            WEB_ENV_VARS: "TYPO3_CONTEXT Development/Docker,
+                TYPO3_PATH_APP /var/www/html/public,
+                TYPO3_PATH_ROOT /var/www/html/public,
+                TYPO3_PATH_WEB /var/www/html/public"
+            XDEBUG_MODE: "debug,develop"
+            # XDEBUG_CLIENT_HOST: host.docker.internal
+            # ENABLE_COMPOSER_VERSION_1: true
+            # COMPOSER_MEMORY_LIMIT: "-1"
+        # image: hhdev/php:5.6-apache-dev-vsc
+        # image: hhdev/php:7.0-apache-dev-vsc
+        # image: hhdev/php:7.1-apache-dev
+        # image: hhdev/php:7.2-apache-dev
+        # image: hhdev/php:7.3-apache-dev
+        image: hhdev/php:7.4-apache-dev
+        # image: hhdev/php:8.0-apache-dev
+        # image: hhdev/php:8.1-apache-dev
+        # image: hhdev/php:8.2-apache-dev
+        # image: hhdev/php:8.3-apache-dev
+        # image: hhdev/php:8.4-apache-dev
+        network_mode: service:db
+        volumes:
+            - ../..:/workspaces
+
+    db:
+        # https://hub.docker.com/_/mariadb
+        command:
+            [
+                "mysqld",
+                "--character-set-server=utf8mb4",
+                "--collation-server=utf8mb4_unicode_ci",
+                "--max_allowed_packet=64M",
+            ]
+        env_file: .env
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            MYSQL_DATABASE: ${DB_DATABASE:-mariadb}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-mariapass}
+            MYSQL_USER: ${DB_USER:-mariauser}
+        image: mysql:5.6         # used for TYPO3 6.x => 9.x
+        # image: mariadb:10.4    # used for TYPO3 10.x => 13.x
+        network_mode: service:selenium
+        volumes:
+            - storage_mysql:/var/lib/mysql
+
+    selenium:
+        # https://hub.docker.com/r/selenium/standalone-chrome
+        env_file: .env
+        image: selenium/standalone-chrome:124.0
+        ports:
+            - 8801:8800 # Apache httpd server
+            - 7901:7900 # Selenium server
+        shm_size: 2gb
+
+volumes:
+    storage_mysql: ~

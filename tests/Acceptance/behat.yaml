@@ -1,7 +1,8 @@
 ---
 
 imports:
-    - 'Features/Frontend.Homepage/suite.yaml'
+    - 'Features/Frontend.Minimum/suite.yaml'
+    - 'Features/Frontend.Website/suite.yaml'
 
 default:
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V12;
 
+use HeikoHardt\Behat\TYPO3Extension\Helper\Database;
 use HeikoHardt\Behat\TYPO3Extension\Helper\Filesystem;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractEnvironment;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\V12\Testbase;
-use TYPO3\CMS\Core\Configuration\SiteConfiguration;
 
 /**
  * Based on: https://github.com/TYPO3/testing-framework/blob/8.2.7/Classes/Core/Functional/FunctionalTestCase.php
@@ -42,14 +42,33 @@ class Environment extends AbstractEnvironment
 
             Filesystem::setUpInstanceHtaccess($origInstanceDirectory, $testInstanceDirectory);
 
+            $defaultCoreExtensionsToLoad = [
+                'core',
+                'backend',
+                'frontend',
+                'extbase',
+                'fluid',
+            ];
+
+            $frameworkExtension = [
+                // 'Resources/Core/Functional/Extensions/json_response',
+                // 'Resources/Core/Functional/Extensions/private_container',
+            ];
+
             $testbase->setUpInstanceCoreLinks(
                 $testInstanceDirectory,
-                $this->configuration['setup']['coreExtensionsToLoad']
+                $defaultCoreExtensionsToLoad,
+                $this->configuration['setup']['coreExtensionsToLoad'] ?? []
             );
 
             $testbase->linkTestExtensionsToInstance(
                 $testInstanceDirectory,
                 $this->configuration['setup']['testExtensionsToLoad'] ?? []
+            );
+
+            $testbase->linkFrameworkExtensionsToInstance(
+                $testInstanceDirectory,
+                $frameworkExtension
             );
 
             $testbase->setUpLocalConfiguration(
@@ -60,10 +79,10 @@ class Environment extends AbstractEnvironment
 
             $testbase->setUpPackageStates(
                 $testInstanceDirectory,
+                $defaultCoreExtensionsToLoad,
                 $this->configuration['setup']['coreExtensionsToLoad'] ?? [],
-                [],
                 $this->configuration['setup']['testExtensionsToLoad'] ?? [],
-                []
+                $frameworkExtension
             );
         }
 
@@ -71,20 +90,61 @@ class Environment extends AbstractEnvironment
         $testbase->loadExtensionTables();
 
         if (isset($this->configuration['setup'])) {
-
             $testbase->createDatabaseStructure($container);
-
+            $testbase->createSiteConfiguration(
+                $container,
+                ($this->configuration['setup']['siteConfiguration'] ?? null),
+                ($this->configuration['setup']['siteConfigurationAdditional'] ?? null)
+            );
             if (isset($this->configuration['fixtures'])) {
                 foreach ($this->configuration['fixtures']['xmlDatabaseFixtures'] as $fixture) {
                     $testbase->importXmlDatabaseFixture($fixture);
                 }
             }
-
-            // create basic site
-            $siteConfiguration = $container->get(SiteConfiguration::class);
-            $siteConfiguration->createNewBasicSite('website-local', 1, getenv('TYPO3_URL') ?: 'http://localhost');
         }
 
         return $container;
+    }
+
+    protected function getLocalConfiguration(
+        array $testDatabaseConfiguration
+    ): array {
+        $localConfiguration['DB'] = Database::getLocalConfiguration(
+            'mysqli',
+            $testDatabaseConfiguration['host'],
+            $testDatabaseConfiguration['port'],
+            $testDatabaseConfiguration['database'],
+            $testDatabaseConfiguration['user'],
+            $testDatabaseConfiguration['password']
+        );
+
+        $localConfiguration['DB']['Connections']['Default']['charset'] = 'utf8mb4';
+        $localConfiguration['DB']['Connections']['Default']['tableoptions']['charset'] = 'utf8mb4';
+        $localConfiguration['DB']['Connections']['Default']['tableoptions']['collate'] = 'utf8mb4_unicode_ci';
+        $localConfiguration['DB']['Connections']['Default']['initCommands']
+            = 'SET SESSION sql_mode = \'' . implode(',', [
+                'STRICT_ALL_TABLES',
+                'ERROR_FOR_DIVISION_BY_ZERO',
+                'NO_AUTO_VALUE_ON_ZERO',
+                'NO_ENGINE_SUBSTITUTION',
+                'NO_ZERO_DATE',
+                'NO_ZERO_IN_DATE',
+                'ONLY_FULL_GROUP_BY',
+            ]) . '\';';
+        if (($localConfiguration['DB']['Connections']['Default']['charset'] ?? '') === '') {
+            $localConfiguration['DB']['Connections']['Default']['charset'] = 'utf8';
+        }
+        $localConfiguration['SYS']['displayErrors'] = '1';
+        $localConfiguration['SYS']['debugExceptionHandler'] = '';
+        $localConfiguration['SYS']['errorHandler'] = '';
+        $localConfiguration['SYS']['trustedHostsPattern'] = '.*';
+        $localConfiguration['SYS']['encryptionKey'] = 'i-am-not-a-secure-encryption-key';
+        $localConfiguration['GFX']['processor'] = 'GraphicsMagick';
+        $localConfiguration['SYS']['caching']['cacheConfigurations']['hash']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend';
+        $localConfiguration['SYS']['caching']['cacheConfigurations']['imagesizes']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend';
+        $localConfiguration['SYS']['caching']['cacheConfigurations']['pages']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend';
+        $localConfiguration['SYS']['caching']['cacheConfigurations']['rootline']['backend'] = 'TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend';
+
+        return $localConfiguration;
     }
 }

@@ -1,0 +1,69 @@
+{
+	"name": "heikohardt/behat-typo3-extension",
+	"description": "Behat extension providing TYPO3 context for E2E tests",
+	"type": "behat-extension",
+	"keywords": [
+		"typo3",
+		"cms",
+		"bdd"
+	],
+	"license": "GPL-2.0-or-later",
+	"version": "8.1.0",
+	"authors": [
+		{
+			"name": "Heiko Hardt",
+			"email": "heiko@hardt.dev"
+		}
+	],
+	"repositories": [
+		{
+			"type": "path",
+			"url": ".vendor/*",
+			"symlink": true
+		}
+	],
+	"require-dev": {
+		"typo3/cms": "^7.6.32",
+		"behat/behat": "^3.7",
+		"behat/mink": "^1.9",
+		"behat/mink-extension": "^2.3",
+		"behat/mink-goutte-driver": "^1.3",
+		"phpunit/phpunit": "^5.7"
+	},
+	"autoload": {
+		"psr-4": {
+			"HeikoHardt\\Behat\\TYPO3Extension\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"HeikoHardt\\Behat\\TYPO3Extension\\Tests\\": "tests/",
+			"TYPO3\\CMS\\Core\\Tests\\": ".run/public/typo3/sysext/core/Tests/"
+		}
+	},
+	"scripts": {
+		"qa": [
+			"mkdir -p .reports/checkstyle",
+			"mkdir -p public",
+			"@qa:tests:bdd"
+		],
+		"qa:tests:bdd": [
+			"behat -c tests/Acceptance/behat.yaml --format pretty"
+		]
+	},
+	"config": {
+		"vendor-dir": ".run/vendor",
+		"bin-dir": ".run/bin",
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"app-dir": ".run",
+			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"web-dir": ".run/public"
+		}
+	}
+}
