@@ -24,9 +24,8 @@ default:
                             transport_mbox_file: /tmp/mail_file
                         BE:
                             installToolPassword: "$pbkdf2-sha256$25000$0pL5lLbzoQDWYpFj9k5cRw$UBJIBTLdmv6G0RB2c2cX817rvk.u4VtpEC/CMb1kEew"
-                    siteConfigurationAdditional:
-                        dependencies:
-                            - heikohardt/dev-site-package
+                        SYS:
+                            sitename: "TYPO3 Development"
                 fixtures:
                     xmlDatabaseFixtures:
                         - /var/www/html/tests/.Fixtures/Database.website/be_users.xml

@@ -9,4 +9,4 @@
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
-/Makefile
+/Makefile export-ignore
