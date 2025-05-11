@@ -24,7 +24,7 @@ default:
                             sitename: "TYPO3 Development"
                     siteConfigurationAdditional:
                         dependencies:
-                            - heikohardt/dev-site-package
+                            - heikohardt/dev-template
                 fixtures:
                     xmlDatabaseFixtures:
                         - /var/www/html/tests/.Fixtures/Database.website/be_users.xml
