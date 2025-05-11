@@ -29,4 +29,5 @@ default:
                     xmlDatabaseFixtures:
                         - /var/www/html/tests/.Fixtures/Database.website/be_users.xml
                         - /var/www/html/tests/.Fixtures/Database.website/pages_slug.xml
+                        - /var/www/html/tests/.Fixtures/Database.website/sys_template_constants.xml
                         - /var/www/html/tests/.Fixtures/Database.website/tt_content.xml

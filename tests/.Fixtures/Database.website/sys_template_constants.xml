@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <sys_template>
+        <uid>1</uid>
+        <pid>1</pid>
+        <title>Root Template</title>
+        <constants><![CDATA[
+config {
+	headerTitle = TYPO3 Dev.Sandbox
+	pids.Home = 1
+	pids.Meta = 5000
+}
+# <INCLUDE_TYPOSCRIPT: source="FILE:EXT:dev_template/Configuration/TypoScript/constants.typoscript">
+        ]]></constants>
+    </sys_template>
+</dataset>
