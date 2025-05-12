@@ -14,7 +14,7 @@ use HeikoHardt\Behat\TYPO3Extension\Typo3\V10\Testbase;
  */
 class Environment extends AbstractEnvironment
 {
-    public function boot(array $configuration = [])
+    public function boot()
     {
         $origInstanceDirectory = $this->getOriginRootPath();
         $testInstanceDirectory = $this->getTestingRootPath();
