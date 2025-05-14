@@ -53,7 +53,7 @@ class Testbase extends FunctionalTestCaseBootstrapUtility
 
     protected function setUpInstancePath($testCaseClassName)
     {
-        $this->instancePath = '/var/www/html/public';
+        $this->instancePath = getenv('TESTING_PATH_ROOT');
     }
 
     protected function setUpLocalConfiguration(array $configurationToMerge)

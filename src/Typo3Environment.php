@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace HeikoHardt\Behat\TYPO3Extension;
 
 use HeikoHardt\Behat\TYPO3Extension\Typo3\V06\Environment as Typo3v06Environment;

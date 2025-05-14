@@ -14,7 +14,7 @@ use HeikoHardt\Behat\TYPO3Extension\Typo3\V11\Testbase;
  */
 class Environment extends AbstractEnvironment
 {
-    public function boot(array $configuration = [])
+    public function boot()
     {
         $origInstanceDirectory = $this->getOriginRootPath();
         $testInstanceDirectory = $this->getTestingRootPath();
@@ -76,7 +76,7 @@ class Environment extends AbstractEnvironment
             $testbase->setUpLocalConfiguration(
                 $testInstanceDirectory,
                 $this->getLocalConfiguration($testDatabaseConfiguration),
-                $this->configuration['setup']['configurationToUseInTestInstance'] ?? []
+                $this->configuration['setup']['localConfigurationOverwrite'] ?? []
             );
 
             $testbase->setUpPackageStates(
@@ -96,7 +96,7 @@ class Environment extends AbstractEnvironment
             $testbase->createSiteConfiguration(
                 $container,
                 ($this->configuration['setup']['siteConfiguration'] ?? null),
-                ($this->configuration['setup']['siteConfigurationAdditional'] ?? null)
+                ($this->configuration['setup']['siteConfigurationOverwrite'] ?? null)
             );
             if (isset($this->configuration['fixtures'])) {
                 foreach ($this->configuration['fixtures']['xmlDatabaseFixtures'] as $fixture) {

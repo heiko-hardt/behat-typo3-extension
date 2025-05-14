@@ -74,7 +74,7 @@ class Testbase extends AbstractTestbase
     public function createSiteConfiguration(
         string $instancePath,
         ?array $siteConfiguration = null,
-        ?array $siteConfigurationAdditional = null
+        ?array $siteConfigurationOverwrite = null
     ): void {
         /** @var SiteConfiguration $configurationService */
         $configurationService = new SiteConfiguration($instancePath . '/typo3conf/sites');
@@ -84,9 +84,9 @@ class Testbase extends AbstractTestbase
             $site = $this->createNewBasicSite(1, getenv('TYPO3_URL') ?: 'http://localhost');
             $configurationService->write('website-local', $site);
         }
-        if ($siteConfigurationAdditional) {
+        if ($siteConfigurationOverwrite) {
             $site = $configurationService->load('website-local');
-            $site = array_merge_recursive($site, $siteConfigurationAdditional);
+            $site = array_merge_recursive($site, $siteConfigurationOverwrite);
             $configurationService->write('website-local', $site);
         }
     }

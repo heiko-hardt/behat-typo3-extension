@@ -11,15 +11,17 @@ services:
                 TYPO3_PATH_ROOT /var/www/html/public,
                 TYPO3_PATH_WEB /var/www/html/public"
             XDEBUG_MODE: "debug,develop"
+            # TYPO3_BRANCH: "6.2"
+            ORIGIN_PATH_ROOT: /var/www/html/.run/public
             # XDEBUG_CLIENT_HOST: host.docker.internal
             # ENABLE_COMPOSER_VERSION_1: true
             # COMPOSER_MEMORY_LIMIT: "-1"
         # image: hhdev/php:5.6-apache-dev-vsc
         # image: hhdev/php:7.0-apache-dev-vsc
         # image: hhdev/php:7.1-apache-dev
-        # image: hhdev/php:7.2-apache-dev
+        image: hhdev/php:7.2-apache-dev
         # image: hhdev/php:7.3-apache-dev
-        image: hhdev/php:7.4-apache-dev
+        # image: hhdev/php:7.4-apache-dev
         # image: hhdev/php:8.0-apache-dev
         # image: hhdev/php:8.1-apache-dev
         # image: hhdev/php:8.2-apache-dev

@@ -1,0 +1,16 @@
+---
+imports:
+    - "Features/Frontend.Minimum/suite.yaml"
+
+default:
+    autoload:
+        "": %paths.base%
+
+    calls:
+        error_reporting: 32759
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: "http://localhost:8800"
+            goutte: ~
+            selenium2: ~

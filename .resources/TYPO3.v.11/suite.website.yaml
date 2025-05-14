@@ -14,7 +14,7 @@ default:
                         - fluid_styled_content
                     testExtensionsToLoad:
                         - dev_template
-                    configurationToUseInTestInstance:
+                    localConfigurationOverwrite:
                         MAIL:
                             transport: mbox
                             transport_mbox_file: /tmp/mail_file
