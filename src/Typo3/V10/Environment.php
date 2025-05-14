@@ -75,7 +75,7 @@ class Environment extends AbstractEnvironment
             $testbase->setUpLocalConfiguration(
                 $testInstanceDirectory,
                 $this->getLocalConfiguration($testDatabaseConfiguration),
-                $this->configuration['setup']['localConfigurationOverwrite'] ?? []
+                $this->configuration['setup']['localConfigurationOverride'] ?? []
             );
 
             $testbase->setUpPackageStates(
@@ -95,7 +95,7 @@ class Environment extends AbstractEnvironment
             $testbase->createSiteConfiguration(
                 $container,
                 ($this->configuration['setup']['siteConfiguration'] ?? null),
-                ($this->configuration['setup']['siteConfigurationOverwrite'] ?? null)
+                ($this->configuration['setup']['siteConfigurationOverride'] ?? null)
             );
             if (isset($this->configuration['fixtures'])) {
                 foreach ($this->configuration['fixtures']['xmlDatabaseFixtures'] as $fixture) {

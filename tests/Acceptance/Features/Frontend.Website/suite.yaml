@@ -14,7 +14,7 @@ default:
                         - fluid_styled_content
                     testExtensionsToLoad:
                         - dev_template
-                    localConfigurationOverwrite:
+                    localConfigurationOverride:
                         MAIL:
                             transport: mbox
                             transport_mbox_file: /tmp/mail_file
@@ -22,7 +22,7 @@ default:
                             installToolPassword: "$argon2i$v=19$m=65536,t=16,p=1$NDhPTG1sUU84RE9aOWFZTA$irHoKVz8sa1Lb1a/gGLRlOUoUD8RJrVTEKm/JG8z1kE"
                         SYS:
                             sitename: "TYPO3 Development"
-                    siteConfigurationOverwrite:
+                    siteConfigurationOverride:
                         dependencies:
                             - heikohardt/dev-template
                 fixtures:

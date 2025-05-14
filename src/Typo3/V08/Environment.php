@@ -67,7 +67,7 @@ class Environment extends AbstractEnvironment
             $testbase->setUpLocalConfiguration(
                 $testInstanceDirectory,
                 $this->getLocalConfiguration($testDatabaseConfiguration),
-                $this->configuration['setup']['localConfigurationOverwrite'] ?? []
+                $this->configuration['setup']['localConfigurationOverride'] ?? []
             );
 
             $testbase->setUpPackageStates(
