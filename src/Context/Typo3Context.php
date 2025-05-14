@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace HeikoHardt\Behat\TYPO3Extension\Context;
 
 use Behat\Behat\Context\Context;
