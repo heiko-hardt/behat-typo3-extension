@@ -56,6 +56,14 @@ class Testbase extends FunctionalTestCaseBootstrapUtility
         $this->instancePath = getenv('TESTING_PATH_ROOT');
     }
 
+    protected function linkTestExtensionsToInstance(array $extensionPaths)
+    {
+        foreach ($extensionPaths as $key => $extensionPath) {
+            $extensionPaths[$key] = 'typo3conf/ext/' . $extensionPath;
+        }
+        parent::linkTestExtensionsToInstance($extensionPaths);
+    }
+
     protected function setUpLocalConfiguration(array $configurationToMerge)
     {
         $databaseName = trim(getenv('typo3DatabaseName'));
