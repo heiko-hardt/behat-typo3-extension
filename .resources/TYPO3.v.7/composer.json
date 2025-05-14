@@ -8,7 +8,7 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.1.3",
+	"version": "8.1.4",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -45,9 +45,9 @@
 		"qa": [
 			"mkdir -p .reports/checkstyle",
 			"mkdir -p public",
-			"@qa:tests:bdd"
+			"@qa:test:bdd"
 		],
-		"qa:tests:bdd": [
+		"qa:test:bdd": [
 			"behat -c tests/Acceptance/behat.yaml --format pretty"
 		]
 	},
