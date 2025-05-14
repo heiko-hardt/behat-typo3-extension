@@ -117,7 +117,7 @@ class Testbase extends AbstractTestbase
     public function createSiteConfiguration(
         ContainerInterface $container,
         ?array $siteConfiguration = null,
-        ?array $siteConfigurationAdditional = null
+        ?array $siteConfigurationOverwrite = null
     ): void {
         /** @var SiteWriter $siteWriter */
         $siteWriter = $container->get(SiteWriter::class);
@@ -126,10 +126,10 @@ class Testbase extends AbstractTestbase
         } else {
             $siteWriter->createNewBasicSite('website-local', 1, getenv('TYPO3_URL') ?: 'http://localhost');
         }
-        if ($siteConfigurationAdditional) {
+        if ($siteConfigurationOverwrite) {
             $siteConfiguration = $container->get(SiteConfiguration::class);
             $site = $siteConfiguration->load('website-local');
-            $site = array_merge_recursive($site, $siteConfigurationAdditional);
+            $site = array_merge_recursive($site, $siteConfigurationOverwrite);
             $siteWriter->write('website-local', $site);
         }
     }
