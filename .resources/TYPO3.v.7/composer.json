@@ -45,9 +45,9 @@
 		"qa": [
 			"mkdir -p .reports/checkstyle",
 			"mkdir -p public",
-			"@qa:tests:bdd"
+			"@qa:test:bdd"
 		],
-		"qa:tests:bdd": [
+		"qa:test:bdd": [
 			"behat -c tests/Acceptance/behat.yaml --format pretty"
 		]
 	},
