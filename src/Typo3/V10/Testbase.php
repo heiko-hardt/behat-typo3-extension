@@ -51,7 +51,7 @@ class Testbase extends AbstractTestbase
         // ############################################################ */
         $autoloadFile = isset($GLOBALS['_composer_autoload_path'])
             ? $GLOBALS['_composer_autoload_path']
-            : dirname(__DIR__, 4) . '/autoload.php';
+            : dirname(__DIR__, 5) . '/autoload.php';
 
         foreach ($entryPointsToSet as $source => $target) {
             if (($entryPointContent = file_get_contents($source)) === false) {
