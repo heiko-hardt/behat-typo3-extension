@@ -59,7 +59,7 @@ class Testbase extends AbstractTestbase
         // ############################################################ */
         $autoload = isset($GLOBALS['_composer_autoload_path'])
             ? $GLOBALS['_composer_autoload_path']
-            : __DIR__ . '/../../../../autoload.php';
+            : __DIR__ . '/../../../../../autoload.php';
         $classLoader = require $autoload;
 
         SystemEnvironmentBuilder::run(0, SystemEnvironmentBuilder::REQUESTTYPE_BE | SystemEnvironmentBuilder::REQUESTTYPE_CLI);
