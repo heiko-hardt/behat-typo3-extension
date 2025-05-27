@@ -1,6 +1,7 @@
 ---
 services:
     web:
+        # https://hub.docker.com/r/hhdev/php
         env_file: .env
         environment:
             WEB_SERVER_NAME: "localhost"
@@ -27,7 +28,7 @@ services:
         # image: hhdev/php:8.4-apache-dev
         network_mode: service:db
         volumes:
-            - ../..:/workspaces
+            - ./../:/var/www/html:rw
 
     db:
         # https://hub.docker.com/_/mariadb
