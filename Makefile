@@ -1,14 +1,21 @@
 include .docker/.env
-
-XDEBUG = 1 #  1 = enable, 0 = disable
+CMD_DOCKER_COMPOSE = docker compose -p ${COMPOSE_PROJECT_NAME} -f .docker/compose.yaml --env-file .docker/.env
 version ?= 13
+
+.PHONY: help url up build qa down clean term prep url
 
 help:
 	@echo "# Target informations ###############################################################"
 	@echo
 	@$(MAKE) -s url
 	@echo
+	@echo "$$ make up                   | start docker compose environment"
+	@echo "$$ make build                | update composer dependencies"
+	@echo "$$ make qa                   | run quality assurance"
+	@echo "$$ make down                 | remove generated content"
 	@echo "$$ make clean                | remove generated content"
+	@echo
+	@echo "$$ make term                 | start terminal in web container"
 	@echo "$$ make prep version=[13]    | prepare environment for TYPO3 version [x]"
 	@echo "$$ make qa:bdd               | quality assurance, complete"
 	@echo "$$ make qa:bdd:suite.minimum | quality assurance, suite: minimum"
@@ -19,20 +26,36 @@ url:
 	@echo "Start browsing web: http://localhost:8801"
 	@echo "          selenium: http://localhost:7901/?autoconnect=1&resize=scale&password=secret"
 
+up:
+	@${CMD_DOCKER_COMPOSE} up -d
+	@$(MAKE) -s url
+
+build:
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
+
+qa:
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /usr/local/bin/php /usr/local/bin/composer run qa
+
+down:
+	@${CMD_DOCKER_COMPOSE} down -v
+
+term:
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash
+
 qa\:bdd:
 	@echo "Running quality assurance ..."
 	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG php .run/bin/behat -c tests/Acceptance/behat.yaml --format pretty
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --format pretty"
 
 qa\:bdd\:suite.minimum:
 	@echo "Running suite: Frontend.Minimum ..."
 	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG php .run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Minimum --format pretty
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Minimum --format pretty"
 
 qa\:bdd\:suite.website:
 	@echo "Running suite: Frontend.Website ..."
 	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG .run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Website --format pretty
+	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Website --format pretty"
 
 clean:
 	@rm -rf .reports .run/bin .run/public .run/vendor public composer.lock
