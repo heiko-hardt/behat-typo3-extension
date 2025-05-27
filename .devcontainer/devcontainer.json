@@ -1,32 +1,35 @@
-// For format details, see https://aka.ms/vscode-remote/devcontainer.json
+// Reference: https://containers.dev/implementors/json_reference/
+// Templates: https://github.com/devcontainers/templates/tree/main/src/debian
+// Image:     https://github.com/devcontainers/images/tree/main/src/base-debian
 {
-	// General devcontainer.json properties
-	// https://containers.dev/implementors/json_reference/#general-properties
-	"name": "Apache-Mod PHP environment",
-	"remoteUser": "developer",
-	"overrideCommand": false,
-	"shutdownAction": "stopCompose",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"bmewburn.vscode-intelephense-client",
-				"cweijan.vscode-mysql-client2",
-				"DotJoshJohnson.xml",
-				"esbenp.prettier-vscode",
-				"ms-vscode.makefile-tools",
-				"vector-of-bool.gitflow",
-				"xdebug.php-debug"
-			]
-		}
-	},
-
-	// Docker Compose specific properties
-	// https://containers.dev/implementors/json_reference/#compose-specific
-	"dockerComposeFile": "../.docker/compose.yaml",
-	"service": "web",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-
-	// Lifecycle scripts
-	// https://containers.dev/implementors/json_reference/#lifecycle-scripts
-	"postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"
+  "name": "BhExt: Behat TYPO3 Extension (DinD environment)",
+  // https://hub.docker.com/_/buildpack-deps/
+  "image": "buildpack-deps:bullseye-curl",
+  // https://containers.dev/features
+  "features": {
+    // https://github.com/devcontainers/features/tree/main/src/common-utils
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "developer",
+      "userUid": "1000",
+      "userGid": "1000"
+    },
+    // https://github.com/devcontainers/features/tree/main/src/git
+    "ghcr.io/devcontainers/features/git:1": {},
+    // https://github.com/devcontainers/features/tree/main/src/docker-in-docker
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+  // Benutzer- und Shell-Konfiguration
+  "containerUser": "developer",
+  "containerEnv": {
+    "SHELL": "/bin/zsh"
+  },
+  // Shell-Setup
+  "postCreateCommand": {
+    "01": "sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends make",
+    "02": "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
+  }
 }
