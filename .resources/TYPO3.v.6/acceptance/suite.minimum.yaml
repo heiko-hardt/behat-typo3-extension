@@ -21,7 +21,7 @@ default:
                         - sv
                         - saltedpasswords
                         - t3skin
-                        - tstemplate                
+                        - tstemplate
                 fixtures:
                     xmlDatabaseFixtures:
                         - /var/www/html/tests/.Fixtures/Database.minimum/pages.xml

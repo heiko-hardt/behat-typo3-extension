@@ -11,19 +11,20 @@ services:
                 TYPO3_PATH_APP /var/www/html/public,
                 TYPO3_PATH_ROOT /var/www/html/public,
                 TYPO3_PATH_WEB /var/www/html/public"
-            XDEBUG_MODE: "debug,develop"
+            XDEBUG_MODE: "debug,develop,coverage"
+            XDEBUG_CONFIG: "client_host=${CONTAINER_IP}"
             # XDEBUG_CLIENT_HOST: host.docker.internal
             # ENABLE_COMPOSER_VERSION_1: true
             # COMPOSER_MEMORY_LIMIT: "-1"
-        # image: hhdev/php:5.6-apache-dev-vsc
-        # image: hhdev/php:7.0-apache-dev-vsc
+        # image: hhdev/php:5.6-apache-dev
+        # image: hhdev/php:7.0-apache-dev
         # image: hhdev/php:7.1-apache-dev
         # image: hhdev/php:7.2-apache-dev
         # image: hhdev/php:7.3-apache-dev
-        # image: hhdev/php:7.4-apache-dev
+        image: hhdev/php:7.4-apache-dev
         # image: hhdev/php:8.0-apache-dev
         # image: hhdev/php:8.1-apache-dev
-        image: hhdev/php:8.2-apache-dev
+        # image: hhdev/php:8.2-apache-dev
         # image: hhdev/php:8.3-apache-dev
         # image: hhdev/php:8.4-apache-dev
         network_mode: service:db
@@ -33,22 +34,23 @@ services:
     db:
         # https://hub.docker.com/_/mariadb
         command:
-            [
-                "mysqld",
-                "--character-set-server=utf8mb4",
-                "--collation-server=utf8mb4_unicode_ci",
-                "--max_allowed_packet=64M",
-            ]
+          [
+              "mysqld",
+              "--character-set-server=utf8mb4",
+              "--collation-server=utf8mb4_unicode_ci",
+              "--max_allowed_packet=64M",
+          ]
         env_file: .env
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: yes
-            MYSQL_DATABASE: ${DB_DATABASE:-mariadb}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-mariapass}
-            MYSQL_USER: ${DB_USER:-mariauser}
-        # image: mysql:5.6         # used for TYPO3 6.x => 9.x
-        image: mariadb:10.4        # used for TYPO3 10.x => 13.x
+            MYSQL_DATABASE: "${DB_DATABASE:-mariadb}"
+            MYSQL_PASSWORD: "${DB_PASSWORD:-mariapass}"
+            MYSQL_USER: "${DB_USER:-mariauser}"
+        # image: mysql:5.6     # used for TYPO3 6.x => 9.x
+        image: mariadb:10.4    # used for TYPO3 10.x => 13.x
         network_mode: service:selenium
         volumes:
+            # - storage_mysql:/var/lib/mysql
             - storage_mariadb:/var/lib/mysql
 
     selenium:
@@ -56,9 +58,10 @@ services:
         env_file: .env
         image: selenium/standalone-chrome:124.0
         ports:
-            - 8801:8800 # Apache httpd server
-            - 7901:7900 # Selenium server
+            - "88${COMPOSE_PROJECT_PORT}:8800" # Apache httpd server
+            - "79${COMPOSE_PROJECT_PORT}:7900" # Selenium server
         shm_size: 2gb
 
 volumes:
     storage_mariadb: ~
+    # storage_mysql: ~
