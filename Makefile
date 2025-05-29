@@ -1,13 +1,15 @@
-include .docker/.env
+-include .docker/.env
 CMD_DOCKER_COMPOSE = docker compose -p ${COMPOSE_PROJECT_NAME} -f .docker/compose.yaml --env-file .docker/.env
 version ?= 13
 
-.PHONY: help url up build qa down clean term prep url
+.PHONY: help url up build qa down clean term prep
 
 help:
 	@echo "# Target informations ###############################################################"
 	@echo
 	@$(MAKE) -s url
+	@echo
+	@echo "$$ make url                  | show published urls"
 	@echo
 	@echo "$$ make up                   | start docker compose environment"
 	@echo "$$ make build                | update composer dependencies"
@@ -17,9 +19,6 @@ help:
 	@echo
 	@echo "$$ make term                 | start terminal in web container"
 	@echo "$$ make prep version=[13]    | prepare environment for TYPO3 version [x]"
-	@echo "$$ make qa:bdd               | quality assurance, complete"
-	@echo "$$ make qa:bdd:suite.minimum | quality assurance, suite: minimum"
-	@echo "$$ make qa:bdd:suite.website | quality assurance, suite: website"
 	@echo
 
 url:
@@ -39,33 +38,23 @@ qa:
 down:
 	@${CMD_DOCKER_COMPOSE} down -v
 
+clean:
+	@rm -rf .reports .run/bin .run/public .run/vendor public
+	@rm -rf tests/Acceptance/behat.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
+	@rm -rf composer.json composer.lock
+
 term:
 	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash
 
-qa\:bdd:
-	@echo "Running quality assurance ..."
-	@mkdir -p public
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --format pretty"
-
-qa\:bdd\:suite.minimum:
-	@echo "Running suite: Frontend.Minimum ..."
-	@mkdir -p public
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Minimum --format pretty"
-
-qa\:bdd\:suite.website:
-	@echo "Running suite: Frontend.Website ..."
-	@mkdir -p public
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash -c ".run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Website --format pretty"
-
-clean:
-	@rm -rf .reports .run/bin .run/public .run/vendor public composer.lock
-
 prep:
 	@echo "Preparing TYPO3 v.${version} environment ..."
-	@$(MAKE) -s clean
-	@cp .resources/TYPO3.v.${version}/compose.yaml .docker/ 
-	@cp .resources/TYPO3.v.${version}/composer.json ./ 
-	@cp .resources/TYPO3.v.${version}/suite.minimum.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml
-	@cp .resources/TYPO3.v.${version}/suite.website.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
+	@$(MAKE) -s down # shutdown current environment
+	@$(MAKE) -s clean # cleanup filesystem
+	@cp .resources/TYPO3.v.${version}/.docker/compose.yaml .docker/
+	@cp .resources/TYPO3.v.${version}/.docker/.env .docker/
+	@cp .resources/TYPO3.v.${version}/composer.json ./
+	@cp .resources/TYPO3.v.${version}/acceptance/behat.yaml tests/Acceptance/
+	@cp .resources/TYPO3.v.${version}/acceptance/suite.minimum.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml
+	@cp .resources/TYPO3.v.${version}/acceptance/suite.website.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
 	@mkdir public
-	@echo "... done. Please rebuild the container."
+	@echo "... done. Environment may now boot in TYPO3 v.${version} environment"

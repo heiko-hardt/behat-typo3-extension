@@ -1,0 +1,30 @@
+---
+
+imports:
+    - 'Features/Frontend.Minimum/suite.yaml'
+    - 'Features/Frontend.Website/suite.yaml'
+
+default:
+
+    autoload:
+        '': '%paths.base%'
+
+    calls:
+        error_reporting: 32759
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://localhost:8800
+            default_session: webdriver_classic
+            webdriver_classic:
+                browser: chrome
+                wd_host: "http://localhost:4444"
+                capabilities:
+                    "goog:chromeOptions":
+                        args:
+                            - "--ignore-certificate-errors"
+                            - "--disable-dev-shm-usage"
+                            - "--no-sandbox"
+                            - "--start-maximized"
+                            - "--disable-features=SidePanelPinning"
+
