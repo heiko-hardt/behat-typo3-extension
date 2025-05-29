@@ -1,0 +1,24 @@
+name: 'Run make ci-build in dev container'
+
+on:
+    pull_request:
+    push:
+        branches:
+            - '*/github-workflow'
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            -   name: Checkout (GitHub)
+                uses: actions/checkout@v3
+
+            -   name: Build and run dev container task
+                uses: devcontainers/ci@v0.3
+                with:
+                    runCmd: |
+                        make prep version=13
+                        make up
+                        make build
+                        make qa
+                        make down
