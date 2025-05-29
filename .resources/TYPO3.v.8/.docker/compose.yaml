@@ -12,8 +12,8 @@ services:
                 TYPO3_PATH_ROOT /var/www/html/public,
                 TYPO3_PATH_WEB /var/www/html/public"
             XDEBUG_MODE: "debug,develop,coverage"
-            XDEBUG_CONFIG: "client_host=${CONTAINER_IP}"
-            # XDEBUG_CLIENT_HOST: host.docker.internal
+            XDEBUG_CONFIG: "client_host=${CONTAINER_IP:-localhost}"
+            # XDEBUG_CLIENT_HOST: "${CONTAINER_IP:-localhost}"
             # ENABLE_COMPOSER_VERSION_1: true
             # COMPOSER_MEMORY_LIMIT: "-1"
         # image: hhdev/php:5.6-apache-dev

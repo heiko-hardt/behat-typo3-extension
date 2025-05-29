@@ -1,5 +1,12 @@
 -include .docker/.env
+# Get System User
+export CMD_DOCKER_USER_NAME := $(shell id -un)
+export CMD_DOCKER_USER_ID := $(shell id -u)
+export CMD_DOCKER_GROUP_NAME := $(shell id -gn)
+export CMD_DOCKER_GROUP_ID := $(shell id -g)
+# Prepare docker composer command
 CMD_DOCKER_COMPOSE = docker compose -p ${COMPOSE_PROJECT_NAME} -f .docker/compose.yaml --env-file .docker/.env
+# Initialize version variable
 version ?= 13
 
 .PHONY: help url up build qa down clean term prep
@@ -26,14 +33,14 @@ url:
 	@echo "          selenium: http://localhost:7901/?autoconnect=1&resize=scale&password=secret"
 
 up:
-	@${CMD_DOCKER_COMPOSE} up -d
+	@${CMD_DOCKER_COMPOSE} up --detach --quiet-pull
 	@$(MAKE) -s url
 
 build:
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
 
 qa:
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /usr/local/bin/php /usr/local/bin/composer run qa
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer run qa
 
 down:
 	@${CMD_DOCKER_COMPOSE} down -v
@@ -44,7 +51,7 @@ clean:
 	@rm -rf composer.json composer.lock
 
 term:
-	@${CMD_DOCKER_COMPOSE} exec -u developer web /bin/bash
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /bin/bash
 
 prep:
 	@echo "Preparing TYPO3 v.${version} environment ..."
