@@ -44,12 +44,18 @@
 		}
 	},
 	"scripts": {
-		"qa": [
+		"environment": [
 			"mkdir -p .reports/checkstyle",
-			"mkdir -p public",
-			"@qa:test:bdd"
+			"mkdir -p public"
 		],
-		"qa:test:bdd": [
+		"qa": [
+			"@environment",
+			"@qa:test"
+		],
+		"qa:test": [
+			"@qa:test:acceptance"
+		],
+		"qa:test:acceptance": [
 			"behat -c tests/Acceptance/behat.yaml --format pretty"
 		]
 	},
