@@ -40,10 +40,6 @@ class Typo3Environment
 
     protected function getVersion()
     {
-        if (!class_exists('\\Composer\\InstalledVersions')) {
-            return getenv('TYPO3_BRANCH');
-        }
-
         foreach (self::$SUPPORTED_PACKAGES as $packageName) {
             $coreVersion = $this->getVersionByPackageName($packageName);
             if ($coreVersion) {
@@ -57,6 +53,10 @@ class Typo3Environment
 
     protected function getVersionByPackageName($packageName)
     {
+        if (!class_exists('\\Composer\\InstalledVersions')) {
+            return false;
+        }
+
         if (\Composer\InstalledVersions::isInstalled($packageName)) {
             if ($packageVersion = \Composer\InstalledVersions::getVersion($packageName)) {
                 if (version_compare($packageVersion, '13.4.0', '>=') && version_compare($packageVersion, '13.4.99', '<=')) {
