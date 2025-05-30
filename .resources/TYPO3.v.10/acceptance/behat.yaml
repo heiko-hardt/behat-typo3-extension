@@ -13,7 +13,6 @@ default:
         error_reporting: 32759
 
     extensions:
-
         Behat\MinkExtension:
             base_url: http://localhost:8800
             default_session: webdriver_classic
@@ -26,9 +25,7 @@ default:
                         args:
                             - "--ignore-certificate-errors"
                             - "--disable-dev-shm-usage"
-                            #- "--disable-gpu"
-                            #- "--headless"
                             - "--no-sandbox"
                             - "--start-maximized"
-                            #- "--window-size=1920,1080"
                             - "--disable-features=SidePanelPinning"
+

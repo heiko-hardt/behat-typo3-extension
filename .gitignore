@@ -1,11 +1,23 @@
+# IDE and OS excludes
+/.idea
+.DS_Store
+
+# Common archive / temporary files
 /.archive
-/.idea/
-/.reports/
+/.mount
+
+# Runtime environment
+/.docker/*
+!/.docker/.gitkeep
+/.reports
 /.run/*
-!/.run/history
-/.run/history/*
-!/.run/history/.gitkeep
+!/.run/.gitkeep
 /.vendor/*
 !/.vendor/.gitkeep
-/composer.lock
 /public/
+/tests/**/behat.yaml
+/tests/**/suite.yaml
+/composer.lock
+
+# Cache files
+**/*.cache

@@ -1,48 +1,67 @@
-include .docker/.env
-
-XDEBUG = 1 #  1 = enable, 0 = disable
+-include .docker/.env
+# Get System User
+export CMD_DOCKER_USER_NAME := $(shell id -un)
+export CMD_DOCKER_USER_ID := $(shell id -u)
+export CMD_DOCKER_GROUP_NAME := $(shell id -gn)
+export CMD_DOCKER_GROUP_ID := $(shell id -g)
+# Prepare docker composer command
+CMD_DOCKER_COMPOSE = docker compose -p ${COMPOSE_PROJECT_NAME} -f .docker/compose.yaml --env-file .docker/.env
+# Initialize version variable
 version ?= 13
+
+.PHONY: help url up build qa down clean term prep
 
 help:
 	@echo "# Target informations ###############################################################"
 	@echo
 	@$(MAKE) -s url
 	@echo
+	@echo "$$ make url                  | show published urls"
+	@echo
+	@echo "$$ make up                   | start docker compose environment"
+	@echo "$$ make build                | update composer dependencies"
+	@echo "$$ make qa                   | run quality assurance"
+	@echo "$$ make down                 | remove generated content"
 	@echo "$$ make clean                | remove generated content"
+	@echo
+	@echo "$$ make term                 | start terminal in web container"
 	@echo "$$ make prep version=[13]    | prepare environment for TYPO3 version [x]"
-	@echo "$$ make qa:bdd               | quality assurance, complete"
-	@echo "$$ make qa:bdd:suite.minimum | quality assurance, suite: minimum"
-	@echo "$$ make qa:bdd:suite.website | quality assurance, suite: website"
 	@echo
 
 url:
 	@echo "Start browsing web: http://localhost:8801"
 	@echo "          selenium: http://localhost:7901/?autoconnect=1&resize=scale&password=secret"
 
-qa\:bdd:
-	@echo "Running quality assurance ..."
-	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG php .run/bin/behat -c tests/Acceptance/behat.yaml --format pretty
+up:
+	@${CMD_DOCKER_COMPOSE} up --detach --quiet-pull
+	@$(MAKE) -s url
 
-qa\:bdd\:suite.minimum:
-	@echo "Running suite: Frontend.Minimum ..."
-	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG php .run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Minimum --format pretty
+build:
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
 
-qa\:bdd\:suite.website:
-	@echo "Running suite: Frontend.Website ..."
-	@mkdir -p public
-	@XDEBUG_SESSION=$XDEBUG .run/bin/behat -c tests/Acceptance/behat.yaml --suite Frontend.Website --format pretty
+qa:
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer run qa
+
+down:
+	@${CMD_DOCKER_COMPOSE} down -v
 
 clean:
-	@rm -rf .reports .run/bin .run/public .run/vendor public composer.lock
+	@rm -rf .reports .run/bin .run/public .run/vendor public
+	@rm -rf tests/Acceptance/behat.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
+	@rm -rf composer.json composer.lock
+
+term:
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /bin/bash
 
 prep:
 	@echo "Preparing TYPO3 v.${version} environment ..."
-	@$(MAKE) -s clean
-	@cp .resources/TYPO3.v.${version}/compose.yaml .docker/ 
-	@cp .resources/TYPO3.v.${version}/composer.json ./ 
-	@cp .resources/TYPO3.v.${version}/suite.minimum.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml
-	@cp .resources/TYPO3.v.${version}/suite.website.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
+	@$(MAKE) -s down # shutdown current environment
+	@$(MAKE) -s clean # cleanup filesystem
+	@cp .resources/TYPO3.v.${version}/.docker/compose.yaml .docker/
+	@cp .resources/TYPO3.v.${version}/.docker/.env .docker/
+	@cp .resources/TYPO3.v.${version}/composer.json ./
+	@cp .resources/TYPO3.v.${version}/acceptance/behat.yaml tests/Acceptance/
+	@cp .resources/TYPO3.v.${version}/acceptance/suite.minimum.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml
+	@cp .resources/TYPO3.v.${version}/acceptance/suite.website.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
 	@mkdir public
-	@echo "... done. Please rebuild the container."
+	@echo "... done. Environment may now boot in TYPO3 v.${version} environment"

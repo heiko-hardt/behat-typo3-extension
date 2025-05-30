@@ -8,7 +8,7 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.1.5",
+	"version": "8.1.6",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -32,7 +32,6 @@
 		"friends-of-behat/mink-extension": "^2.x-dev",
 		"mink/webdriver-classic-driver": "^1.1",
 
-		"helmich/typo3-typoscript-lint": "^2.5",
 		"phpmd/phpmd": "^2.15",
 		"squizlabs/php_codesniffer": "^3.7",
 		"rector/rector": "^2.0",
@@ -51,9 +50,12 @@
 		}
 	},
 	"scripts": {
-		"qa": [
+		"environment": [
 			"mkdir -p .reports/checkstyle",
-			"mkdir -p public",
+			"mkdir -p public"
+		],
+		"qa": [
+			"@environment",
 			"@qa:static-code-analysis",
 			"@qa:test"
 		],
@@ -62,7 +64,7 @@
 			"@qa:sca:phpmd"
 		],
 		"qa:test": [
-			"@qa:test:bdd"
+			"@qa:test:acceptance"
 		],
 		"qa:automatic-code-refactoring": [
 			"@qa:acr:cs-fixer"
@@ -75,7 +77,7 @@
 		"qa:sca:phpmd": [
 			"phpmd ./src xml cleancode,codesize,controversial,design,naming,unusedcode --reportfile .reports/phpmd.xml --suffixes php --ignore-errors-on-exit --ignore-violations-on-exit"
 		],
-		"qa:test:bdd": [
+		"qa:test:acceptance": [
 			"behat -c tests/Acceptance/behat.yaml --format pretty"
 		],
 		"qa:acr:rector": [
