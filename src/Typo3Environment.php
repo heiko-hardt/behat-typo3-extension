@@ -27,10 +27,9 @@ class Typo3Environment
 
     public function boot(array $configuration)
     {
-        if ($typo3environment = $this->getTypo3Environment()) {
-            return $typo3environment->setConfiguration($configuration)->boot();
-        }
-        return false;
+        $typo3environment = $this->getTypo3Environment();
+        $typo3environment->setConfiguration($configuration);
+        return $typo3environment->boot();
     }
 
     private function getTypo3Environment()
