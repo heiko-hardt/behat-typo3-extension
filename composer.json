@@ -1,0 +1,24 @@
+{
+	"name": "heikohardt/behat-typo3-extension",
+	"description": "Behat extension providing TYPO3 context for E2E tests",
+	"type": "behat-extension",
+	"keywords": [
+		"behat",
+		"typo3",
+		"cms",
+		"bdd"
+	],
+	"license": "GPL-2.0-or-later",
+	"version": "8.1.6",
+	"authors": [
+		{
+			"name": "Heiko Hardt",
+			"email": "heiko@hardt.dev"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"HeikoHardt\\Behat\\TYPO3Extension\\": "src/"
+		}
+	}
+}
