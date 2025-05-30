@@ -52,7 +52,7 @@ class Typo3Environment
         }
 
         // Return environment variable as fallback
-        return getenv('TYPO3_BRANCH');
+        return $this->getVersionFromEnvironment();
     }
 
     protected function getVersionByPackageName($packageName)
@@ -77,5 +77,28 @@ class Typo3Environment
             }
         }
         return false;
+    }
+
+    /**
+     * Gets the TYPO3 version from the environment
+     *
+     * This method is used as a fallback when the version cannot be determined through composer.
+     * It expects the TYPO3 version to be defined in the TYPO3_BRANCH environment variable.
+     *
+     * @return string The TYPO3 version from the environment variable
+     * @throws \RuntimeException if TYPO3_BRANCH environment variable is not set or empty
+     */
+    private function getVersionFromEnvironment()
+    {
+        $version = getenv('TYPO3_BRANCH');
+
+        if ($version === false || empty($version)) {
+            throw new \RuntimeException(
+                'Unable to determine the TYPO3 version. Please provide an environment variable "TYPO3_BRANCH" ' .
+                'with the TYPO3 version (e.g. "11.5", "12.4", "13.4").'
+            );
+        }
+
+        return $version;
     }
 }
