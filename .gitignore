@@ -17,7 +17,6 @@
 /public/
 /tests/**/behat.yaml
 /tests/**/suite.yaml
-/composer.json
 /composer.lock
 
 # Cache files
