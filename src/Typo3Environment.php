@@ -5,9 +5,22 @@ namespace HeikoHardt\Behat\TYPO3Extension;
 use Composer\InstalledVersions;
 use HeikoHardt\Behat\TYPO3Extension\Factory\Typo3EnvironmentFactory;
 
+/**
+ * TYPO3 Environment Handler
+ *
+ * This class manages the TYPO3 environment initialization and version detection.
+ * It supports version detection through Composer packages and environment variables,
+ * and handles the boot process for different TYPO3 versions.
+ *
+ * The version detection follows this priority:
+ * 1. Composer packages (typo3/cms-core or typo3/cms)
+ * 2. TYPO3_BRANCH environment variable as fallback
+ */
 class Typo3Environment
 {
     /**
+     * List of supported TYPO3 package names for version detection
+     *
      * @var array
      */
     private static $SUPPORTED_PACKAGES = [
@@ -16,6 +29,8 @@ class Typo3Environment
     ];
 
     /**
+     * Factory for creating version-specific TYPO3 environments
+     *
      * @var Typo3EnvironmentFactory
      */
     private $Typo3EnvironmentFactory;
@@ -25,6 +40,12 @@ class Typo3Environment
         $this->Typo3EnvironmentFactory = new Typo3EnvironmentFactory();
     }
 
+    /**
+     * Boots the TYPO3 environment with the given configuration
+     *
+     * @param array $configuration Configuration array for the TYPO3 environment
+     * @return mixed The boot result from the specific TYPO3 environment
+     */
     public function boot(array $configuration)
     {
         $typo3environment = $this->getTypo3Environment();
@@ -32,12 +53,26 @@ class Typo3Environment
         return $typo3environment->boot();
     }
 
+    /**
+     * Creates a version-specific TYPO3 environment instance
+     *
+     * @return mixed The specific TYPO3 environment instance
+     */
     private function getTypo3Environment()
     {
         $version = $this->getVersion();
         return $this->Typo3EnvironmentFactory->createEnvironment($version);
     }
 
+    /**
+     * Determines the TYPO3 version to use
+     *
+     * Tries to detect the version from supported packages first,
+     * falls back to environment variable if no package version is found.
+     *
+     * @return string The detected TYPO3 version in format "XX.Y"
+     * @throws \RuntimeException if no version could be determined
+     */
     protected function getVersion()
     {
         // Loop through all supported packages and try to determine the TYPO3 version
@@ -52,6 +87,12 @@ class Typo3Environment
         return $this->getVersionByEnvironmentVariable();
     }
 
+    /**
+     * Attempts to get the TYPO3 version from a specific package
+     *
+     * @param string $packageName The composer package name to check
+     * @return string|null The TYPO3 version in format "XX.Y" or null if not determinable
+     */
     protected function getVersionByPackageName($packageName)
     {
         // Check if composer::installed-versions is available
