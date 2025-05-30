@@ -48,7 +48,7 @@ class Typo3Environment
         }
 
         // Return environment variable as fallback
-        return $this->getVersionFromEnvironment();
+        return $this->getVersionByEnvironmentVariable();
     }
 
     protected function getVersionByPackageName($packageName)
@@ -88,7 +88,7 @@ class Typo3Environment
      * @return string The TYPO3 version from the environment variable
      * @throws \RuntimeException if TYPO3_BRANCH environment variable is not set or empty
      */
-    private function getVersionFromEnvironment()
+    private function getVersionByEnvironmentVariable()
     {
         $version = getenv('TYPO3_BRANCH');
 
