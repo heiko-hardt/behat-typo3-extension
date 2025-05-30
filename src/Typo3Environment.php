@@ -6,6 +6,13 @@ use HeikoHardt\Behat\TYPO3Extension\Factory\Typo3EnvironmentFactory;
 
 class Typo3Environment
 {
+    /**
+     * @var array
+     */
+    private static $SUPPORTED_PACKAGES = [
+        'typo3/cms-core',
+        'typo3/cms'
+    ];
 
     /**
      * @var Typo3EnvironmentFactory
@@ -36,11 +43,14 @@ class Typo3Environment
         if (!class_exists('\\Composer\\InstalledVersions')) {
             return getenv('TYPO3_BRANCH');
         }
-        if ($version = $this->getVersionByPackageName('typo3/cms-core')) {
-            return $version;
-        } elseif ($version = $this->getVersionByPackageName('typo3/cms')) {
-            return $version;
+
+        foreach (self::$SUPPORTED_PACKAGES as $packageName) {
+            $coreVersion = $this->getVersionByPackageName($packageName);
+            if ($coreVersion) {
+                return $coreVersion;
+            }
         }
+
         // Return environment variable as fallback
         return getenv('TYPO3_BRANCH');
     }
