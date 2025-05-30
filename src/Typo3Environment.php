@@ -2,6 +2,7 @@
 
 namespace HeikoHardt\Behat\TYPO3Extension;
 
+use Composer\InstalledVersions;
 use HeikoHardt\Behat\TYPO3Extension\Factory\Typo3EnvironmentFactory;
 
 class Typo3Environment
@@ -40,6 +41,7 @@ class Typo3Environment
 
     protected function getVersion()
     {
+        // Loop through all supported packages and try to determine the TYPO3 version
         foreach (self::$SUPPORTED_PACKAGES as $packageName) {
             $coreVersion = $this->getVersionByPackageName($packageName);
             if ($coreVersion) {
@@ -53,30 +55,32 @@ class Typo3Environment
 
     protected function getVersionByPackageName($packageName)
     {
-        if (!class_exists('\\Composer\\InstalledVersions')) {
-            return false;
+        // Check if composer::installed-versions is available
+        if (!class_exists(InstalledVersions::class)) {
+            return null;
         }
 
-        if (\Composer\InstalledVersions::isInstalled($packageName)) {
-            if ($packageVersion = \Composer\InstalledVersions::getVersion($packageName)) {
-                if (version_compare($packageVersion, '13.4.0', '>=') && version_compare($packageVersion, '13.4.99', '<=')) {
-                    return '13.4';
-                } elseif (version_compare($packageVersion, '12.4.0', '>=') && version_compare($packageVersion, '12.4.99', '<=')) {
-                    return '12.4';
-                } elseif (version_compare($packageVersion, '11.5.0', '>=') && version_compare($packageVersion, '11.5.99', '<=')) {
-                    return '11.5';
-                } elseif (version_compare($packageVersion, '10.4.0', '>=') && version_compare($packageVersion, '10.4.99', '<=')) {
-                    return '10.4';
-                } elseif (version_compare($packageVersion, '9.5.0', '>=') && version_compare($packageVersion, '9.5.99', '<=')) {
-                    return '9.5';
-                } elseif (version_compare($packageVersion, '8.7.0', '>=') && version_compare($packageVersion, '8.7.99', '<=')) {
-                    return '8.7';
-                } elseif (version_compare($packageVersion, '7.6.0', '>=') && version_compare($packageVersion, '7.6.99', '<=')) {
-                    return '7.6';
-                }
-            }
+        // Check if package is installed
+        if (!InstalledVersions::isInstalled($packageName)) {
+            return null;
         }
-        return false;
+
+        $fullPackageVersion = InstalledVersions::getVersion($packageName);
+        // Check if version is not empty
+        if (empty($fullPackageVersion)) {
+            return null;
+        }
+
+        // Fetch minor version from package version string (e.g. 11.5.0 -> 11.5)
+        if (!preg_match('/^(\d+\.\d+)/', $fullPackageVersion, $matches)) {
+            return null;
+        }
+        $minorVersion = $matches[1];
+
+        // Check if version is supported
+        return $this->Typo3EnvironmentFactory->isVersionSupported($minorVersion)
+            ? $minorVersion
+            : null;
     }
 
     /**
