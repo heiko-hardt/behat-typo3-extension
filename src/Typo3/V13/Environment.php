@@ -10,7 +10,7 @@ use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractEnvironment;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\V13\Testbase;
 
 /**
- * Based on: https://github.com/TYPO3/testing-framework/blob/9.2.0/Classes/Core/Functional/FunctionalTestCase.php
+ * Based on: https://github.com/TYPO3/testing-framework/blob/9.5.0/Classes/Core/Functional/FunctionalTestCase.php
  */
 class Environment extends AbstractEnvironment
 {

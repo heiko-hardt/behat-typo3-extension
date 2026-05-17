@@ -81,7 +81,7 @@ class Testbase extends AbstractTestbase
         if ($siteConfiguration) {
             $configurationService->write('website-local', $siteConfiguration);
         } else {
-            $site = $this->createNewBasicSite(1, getenv('TYPO3_URL') ?: 'http://localhost');
+            $site = $this->createNewBasicSite(1, getenv('TESTING_URL') ?: 'http://localhost');
             $configurationService->write('website-local', $site);
         }
         if ($siteConfigurationOverride) {
