@@ -40,7 +40,12 @@ class Environment extends AbstractEnvironment
             $testbase->createDirectory($testInstanceDirectory . '/typo3temp/assets');
             $testbase->createDirectory($testInstanceDirectory . '/typo3conf/ext');
 
-            Filesystem::setUpInstanceHtaccess($origInstanceDirectory, $testInstanceDirectory);
+            Filesystem::setUpInstanceHtaccess(
+                originDirectoryPath: $origInstanceDirectory,
+                testingDirectoryPath: $testInstanceDirectory,
+                absoluteFilePath: $this->configuration['setup']['htaccess']['absoluteFilePath'] ?? null,
+                additionalDirectives: $this->configuration['setup']['htaccess']['additionalDirectives'] ?? null
+            );
 
             $defaultCoreExtensionsToLoad = [
                 'core',
