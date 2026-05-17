@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+documentation: https://docs.phpunit.de/en/8.5/configuration.html
+origin:        https://github.com/TYPO3/testing-framework/blob/9.5.0/Resources/Core/Build/UnitTests.xml
+-->
+
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.2/phpunit.xsd"
+         backupGlobals="true"
+         bootstrap="../../.run/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         cacheResult="false"
+         colors="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         failOnDeprecation="true"    
+         failOnNotice="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         requireCoverageMetadata="false">
+
+    <!-- https://docs.phpunit.de/en/11.5/configuration.html#the-testsuites-element -->
+    <testsuites>
+        <testsuite name="unit">
+            <!--
+                This path either needs an adaption in extensions, or an extension's
+                test location path needs to be given to phpunit.
+            -->        
+            <directory>../../tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- https://docs.phpunit.de/en/11.5/configuration.html#the-source-element -->
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>../../src</directory>
+        </include>
+    </source>
+
+    <!-- https://docs.phpunit.de/en/11.5/configuration.html#the-logging-element -->
+    <coverage includeUncoveredFiles="true"
+          pathCoverage="false"
+          ignoreDeprecatedCodeUnits="true"
+          disableCodeCoverageIgnore="true">
+        <report>
+            <clover outputFile="../../.reports/coverage-clover.xml"/>
+        </report>
+    </coverage>
+
+    <!-- https://docs.phpunit.de/en/11.5/configuration.html#the-logging-element -->
+    <logging>
+        <junit outputFile="../../.reports/junit.xml"/>
+    </logging>
+
+</phpunit>

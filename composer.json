@@ -9,7 +9,6 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.1.6",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -20,5 +19,15 @@
 		"psr-4": {
 			"HeikoHardt\\Behat\\TYPO3Extension\\": "src/"
 		}
-	}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"HeikoHardt\\Behat\\TYPO3Extension\\Tests\\": "tests/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-main": "8.1.x-dev"
+		}
+	}	
 }
