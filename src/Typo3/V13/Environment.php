@@ -7,7 +7,9 @@ namespace HeikoHardt\Behat\TYPO3Extension\Typo3\V13;
 use HeikoHardt\Behat\TYPO3Extension\Helper\Database;
 use HeikoHardt\Behat\TYPO3Extension\Helper\Filesystem;
 use HeikoHardt\Behat\TYPO3Extension\Typo3\AbstractEnvironment;
-use HeikoHardt\Behat\TYPO3Extension\Typo3\V13\Testbase;
+use Psr\Container\ContainerInterface;
+use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 
 /**
  * Based on: https://github.com/TYPO3/testing-framework/blob/9.5.0/Classes/Core/Functional/FunctionalTestCase.php
@@ -15,6 +17,21 @@ use HeikoHardt\Behat\TYPO3Extension\Typo3\V13\Testbase;
 class Environment extends AbstractEnvironment
 {
     public function boot()
+    {
+        // Use origin environment when testing root path matches origin's public directory
+        return ($this->getTestingRootPath() === $this->getOriginRootPath() . '/public')
+            ? $this->boot_origin_environment()
+            : $this->boot_testing_environment();
+    }
+
+    protected function boot_origin_environment(): ContainerInterface
+    {
+        $classLoader = require getenv('TYPO3_PATH_COMPOSER_ROOT') . '/vendor/autoload.php';
+        SystemEnvironmentBuilder::run();
+        return Bootstrap::init($classLoader);
+    }
+
+    protected function boot_testing_environment()
     {
         $origInstanceDirectory = $this->getOriginRootPath();
         $testInstanceDirectory = $this->getTestingRootPath();
