@@ -3,12 +3,13 @@
 // Image:     https://github.com/devcontainers/images/tree/main/src/base-debian
 {
   "name": "BhExt: Behat TYPO3 Extension (DinD environment)",
-  // https://hub.docker.com/_/buildpack-deps/
-  "image": "buildpack-deps:bullseye-curl",
+  // https://hub.docker.com/_/debian
+  "image": "debian:bookworm-slim",
   // https://containers.dev/features
   "features": {
     // https://github.com/devcontainers/features/tree/main/src/common-utils
     "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true,
       "username": "developer",
       "userUid": "1000",
       "userGid": "1000"
@@ -17,19 +18,32 @@
     "ghcr.io/devcontainers/features/git:1": {},
     // https://github.com/devcontainers/features/tree/main/src/docker-in-docker
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
-      "version": "latest",
-      "enableNonRootDocker": "true",
-      "moby": "true"
+      "version": "29.5",
+      "moby": false
     }
   },
   // Benutzer- und Shell-Konfiguration
   "containerUser": "developer",
-  "containerEnv": {
-    "SHELL": "/bin/zsh"
+  // Portforwarding
+  "forwardPorts": [
+    8801,
+    7901
+  ],
+  // VS Code Extensions
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "alexkrechik.cucumberautocomplete",
+        "bmewburn.vscode-intelephense-client",
+        "esbenp.prettier-vscode",
+        "ms-vscode.makefile-tools",
+        "xdebug.php-debug"
+      ]
+    }
   },
-  // Shell-Setup
+  // Lifecycle scripts: https://containers.dev/implementors/json_reference/#lifecycle-scripts
   "postCreateCommand": {
-    "01": "sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends make",
-    "02": "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
+    "tools": "sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends make",
+    "zsh": "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
   }
 }
