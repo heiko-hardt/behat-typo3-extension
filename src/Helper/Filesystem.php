@@ -157,10 +157,12 @@ class Filesystem
         }
 
         $commonPath = $to;
-        while (strpos($from . '/', $commonPath . '/') !== 0 && '/' !== $commonPath && preg_match(
-            '{^[a-z]:/?$}i',
-            $commonPath
-        ) !== false && '.' !== $commonPath) {
+        while (
+            strpos($from . '/', $commonPath . '/') !== 0
+            && '/' !== $commonPath
+            && preg_match('{^[a-z]:/?$}i', $commonPath) !== false
+            && '.' !== $commonPath
+        ) {
             $commonPath = str_replace('\\', '/', \dirname($commonPath));
         }
 
@@ -180,6 +182,21 @@ class Filesystem
     }
 
     public static function setUpInstanceHtaccess(
+        $originDirectoryPath,
+        $testingDirectoryPath,
+        $absoluteFilePath = null,
+        $additionalDirectives = null
+    ): bool {
+        if (!self::copyInstanceHtaccess($originDirectoryPath, $testingDirectoryPath, $absoluteFilePath)) {
+            return false;
+        }
+        if ($additionalDirectives !== null) {
+            return self::extendInstanceHtaccess($testingDirectoryPath . '/.htaccess', $additionalDirectives);
+        }
+        return true;
+    }
+
+    public static function copyInstanceHtaccess(
         $originDirectoryPath,
         $testingDirectoryPath,
         $absoluteFilePath = null
@@ -203,6 +220,21 @@ class Filesystem
         return false;
     }
 
+    public static function extendInstanceHtaccess(
+        $filePath,
+        $additionalDirectives
+    ): bool {
+        if (!is_file($filePath)) {
+            return false;
+        }
+
+        if (!is_string($additionalDirectives) || trim($additionalDirectives) === '') {
+            return true;
+        }
+
+        return @file_put_contents($filePath, Env::resolve($additionalDirectives), FILE_APPEND | LOCK_EX) !== false;
+    }
+
     /**
      * Link test extensions to the typo3conf/ext folder of the instance.
      * For functional and acceptance tests.
@@ -216,7 +248,7 @@ class Filesystem
     public static function linkTestExtensionsToInstance(
         string $originDirectoryPath,
         string $testingDirectoryPath,
-        array $extensionPaths
+        array  $extensionPaths
     ): void {
         foreach ($extensionPaths as $extensionPath) {
             $absoluteExtensionPath = $originDirectoryPath . '/public/typo3conf/ext/' . $extensionPath;

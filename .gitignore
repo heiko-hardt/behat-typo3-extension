@@ -14,9 +14,10 @@
 !/.run/.gitkeep
 /.vendor/*
 !/.vendor/.gitkeep
-/public/
+/public
 /tests/**/behat.yaml
 /tests/**/suite.yaml
+/var
 /composer.lock
 
 # Cache files
