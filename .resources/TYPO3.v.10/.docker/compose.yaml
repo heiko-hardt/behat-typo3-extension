@@ -54,9 +54,9 @@ services:
             - storage_mariadb:/var/lib/mysql
 
     selenium:
-        # https://hub.docker.com/r/selenium/standalone-chrome
+        # https://hub.docker.com/r/selenium/standalone-chromium
         env_file: .env
-        image: selenium/standalone-chrome:124.0
+        image: selenium/standalone-chromium:145.0
         ports:
             - "88${COMPOSE_PROJECT_PORT}:8800" # Apache httpd server
             - "79${COMPOSE_PROJECT_PORT}:7900" # Selenium server
