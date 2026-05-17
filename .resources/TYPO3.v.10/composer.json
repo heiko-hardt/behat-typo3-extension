@@ -8,7 +8,6 @@
 		"bdd"
 	],
 	"license": "GPL-2.0-or-later",
-	"version": "8.1.6",
 	"authors": [
 		{
 			"name": "Heiko Hardt",
@@ -96,9 +95,11 @@
 		}
 	},
 	"extra": {
+		"branch-alias": {
+			"dev-main": "8.1.x-dev"
+		},
 		"typo3/cms": {
 			"app-dir": ".run",
-			"cms-package-dir": "{$vendor-dir}/typo3/cms",
 			"web-dir": ".run/public"
 		}
 	}
