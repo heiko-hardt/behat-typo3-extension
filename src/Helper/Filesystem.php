@@ -182,6 +182,22 @@ class Filesystem
     public static function setUpInstanceHtaccess(
         $originDirectoryPath,
         $testingDirectoryPath,
+        $absoluteFilePath = null,
+        $additionalDirectives = null
+    ): bool
+    {
+        if (!self::copyInstanceHtaccess($originDirectoryPath, $testingDirectoryPath, $absoluteFilePath)) {
+            return false;
+        }
+        if ($additionalDirectives !== null) {
+            return self::extendInstanceHtaccess($testingDirectoryPath . '/.htaccess', Env::resolve($additionalDirectives));
+        }
+        return true;
+    }
+
+    public static function copyInstanceHtaccess(
+        $originDirectoryPath,
+        $testingDirectoryPath,
         $absoluteFilePath = null
     ): bool {
         if ($absoluteFilePath && is_file($absoluteFilePath)) {
@@ -201,6 +217,25 @@ class Filesystem
             );
         }
         return false;
+    }
+
+    public static function extendInstanceHtaccess(
+        $filePath,
+        $additionalDirectives
+    ): bool {
+        if (!is_file($filePath)) {
+            return false;
+        }
+
+        if (!is_string($additionalDirectives) || trim($additionalDirectives) === '') {
+            return true;
+        }
+
+        return @file_put_contents(
+                $filePath,
+                PlaceholderResolver::resolveEnvPlaceholder($additionalDirectives),
+                FILE_APPEND | LOCK_EX
+            ) !== false;
     }
 
     /**
