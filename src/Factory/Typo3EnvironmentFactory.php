@@ -7,7 +7,7 @@ use HeikoHardt\Behat\TYPO3Extension\Typo3 as T3;
 /**
  * Factory class for creating TYPO3 environment instances
  *
- * Supports TYPO3 versions from 6.2 to 13.4 and creates the appropriate environment
+ * Supports TYPO3 versions from 6.2 to 14.3 and creates the appropriate environment
  * instance based on the specified version.
  */
 class Typo3EnvironmentFactory
@@ -25,7 +25,8 @@ class Typo3EnvironmentFactory
         '10.4' => T3\V10\Environment::class,
         '11.5' => T3\V11\Environment::class,
         '12.4' => T3\V12\Environment::class,
-        '13.4' => T3\V13\Environment::class
+        '13.4' => T3\V13\Environment::class,
+        '14.3' => T3\V14\Environment::class
     ];
 
     /**
@@ -43,7 +44,7 @@ class Typo3EnvironmentFactory
     /**
      * Creates a TYPO3 environment instance for the specified version
      *
-     * Available versions are: 6.2, 7.6, 8.7, 9.5, 10.4, 11.5, 12.4, 13.4
+     * Available versions are: 6.2, 7.6, 8.7, 9.5, 10.4, 11.5, 12.4, 13.4, 14.3
      *
      * @param string $version TYPO3 version string (e.g. '6.2', '7.6')
      * @return T3\AbstractEnvironment|TYPO3\CMS\Core\Tests\FunctionalTestCase Returns environment instance for the specified TYPO3 version

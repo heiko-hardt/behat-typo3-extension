@@ -139,7 +139,7 @@ class Typo3Environment
         if ($version === false || empty($version)) {
             throw new \RuntimeException(
                 'Unable to determine the TYPO3 version. Please provide an environment variable "TYPO3_BRANCH" ' .
-                'with the TYPO3 version (e.g. "11.5", "12.4", "13.4").'
+                'with the TYPO3 version (e.g. "11.5", "12.4", "13.4", "14.3").'
             );
         }
 

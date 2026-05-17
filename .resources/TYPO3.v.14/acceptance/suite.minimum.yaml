@@ -1,0 +1,15 @@
+---
+default:
+    suites:
+        Frontend.Minimum:
+            paths:
+                - "%paths.base%/Features/Frontend.Minimum"
+            contexts:
+                - HeikoHardt\Behat\TYPO3Extension\Tests\Acceptance\Context\FeatureContext
+                - HeikoHardt\Behat\TYPO3Extension\Tests\Acceptance\Context\TYPO3Context
+            environment:
+                setup: {}
+                fixtures:
+                    xmlDatabaseFixtures:
+                        - /var/www/html/tests/.Fixtures/Database.minimum/pages_slug.xml
+                        - /var/www/html/tests/.Fixtures/Database.minimum/sys_template.xml
