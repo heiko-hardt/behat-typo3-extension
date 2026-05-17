@@ -157,10 +157,12 @@ class Filesystem
         }
 
         $commonPath = $to;
-        while (strpos($from . '/', $commonPath . '/') !== 0 && '/' !== $commonPath && preg_match(
-            '{^[a-z]:/?$}i',
-            $commonPath
-        ) !== false && '.' !== $commonPath) {
+        while (
+            strpos($from . '/', $commonPath . '/') !== 0
+            && '/' !== $commonPath
+            && preg_match('{^[a-z]:/?$}i', $commonPath) !== false
+            && '.' !== $commonPath
+        ) {
             $commonPath = str_replace('\\', '/', \dirname($commonPath));
         }
 
@@ -184,13 +186,12 @@ class Filesystem
         $testingDirectoryPath,
         $absoluteFilePath = null,
         $additionalDirectives = null
-    ): bool
-    {
+    ): bool {
         if (!self::copyInstanceHtaccess($originDirectoryPath, $testingDirectoryPath, $absoluteFilePath)) {
             return false;
         }
         if ($additionalDirectives !== null) {
-            return self::extendInstanceHtaccess($testingDirectoryPath . '/.htaccess', Env::resolve($additionalDirectives));
+            return self::extendInstanceHtaccess($testingDirectoryPath . '/.htaccess', $additionalDirectives);
         }
         return true;
     }
@@ -231,11 +232,7 @@ class Filesystem
             return true;
         }
 
-        return @file_put_contents(
-                $filePath,
-                PlaceholderResolver::resolveEnvPlaceholder($additionalDirectives),
-                FILE_APPEND | LOCK_EX
-            ) !== false;
+        return @file_put_contents($filePath, Env::resolve($additionalDirectives), FILE_APPEND | LOCK_EX) !== false;
     }
 
     /**
@@ -251,7 +248,7 @@ class Filesystem
     public static function linkTestExtensionsToInstance(
         string $originDirectoryPath,
         string $testingDirectoryPath,
-        array $extensionPaths
+        array  $extensionPaths
     ): void {
         foreach ($extensionPaths as $extensionPath) {
             $absoluteExtensionPath = $originDirectoryPath . '/public/typo3conf/ext/' . $extensionPath;
