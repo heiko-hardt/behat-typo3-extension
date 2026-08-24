@@ -29,7 +29,7 @@ help:
 	@echo
 
 url:
-	@echo "Start browsing web: http://localhost:8801"
+	@echo "Start browsing web: http://localhost:8081"
 	@echo "          selenium: http://localhost:7901/?autoconnect=1&resize=scale&password=secret"
 
 up:
@@ -37,10 +37,10 @@ up:
 	@$(MAKE) -s url
 
 build:
-	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_ID} web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
 
 qa:
-	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /usr/local/bin/php /usr/local/bin/composer run qa
+	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_ID} web /usr/local/bin/php /usr/local/bin/composer run qa
 
 down:
 	@${CMD_DOCKER_COMPOSE} down -v
@@ -51,7 +51,10 @@ clean:
 	@rm -rf composer.json composer.lock
 
 term:
-	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_NAME} web /bin/bash
+	@${CMD_DOCKER_COMPOSE} exec web /bin/bash
+
+log:
+	@${CMD_DOCKER_COMPOSE} logs --follow
 
 prep:
 	@echo "Preparing TYPO3 v.${version} environment ..."

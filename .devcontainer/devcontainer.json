@@ -26,24 +26,36 @@
   "containerUser": "developer",
   // Portforwarding
   "forwardPorts": [
-    8801,
+    8081,
     7901
   ],
   // VS Code Extensions
   "customizations": {
     "vscode": {
       "extensions": [
-        "alexkrechik.cucumberautocomplete",
+        // Docker
+        "docker.docker",
+        // PHP
         "bmewburn.vscode-intelephense-client",
-        "esbenp.prettier-vscode",
+        "recca0120.vscode-phpunit",
+        "xdebug.php-debug",
+        // MySQL
+        "cweijan.vscode-mysql-client2",
+        // Makefile
         "ms-vscode.makefile-tools",
-        "xdebug.php-debug"
+        // Formatters
+        "EditorConfig.EditorConfig",
+        "esbenp.prettier-vscode",
+        "lumirelle.shell-format-rev",
+        "redhat.vscode-yaml",
+        "redhat.vscode-xml"
       ]
     }
   },
   // Lifecycle scripts: https://containers.dev/implementors/json_reference/#lifecycle-scripts
   "postCreateCommand": {
-    "tools": "sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends make",
-    "zsh": "cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc"
+    "apt": "sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends make mc vim",
+    "zsh": "rm -rf /home/developer/.zshrc && cp /home/developer/.oh-my-zsh/templates/zshrc.zsh-template /home/developer/.zshrc",
+    "env": "[ -f ../.devcontainer.init ] && bash ../.devcontainer.init || true"
   }
 }
