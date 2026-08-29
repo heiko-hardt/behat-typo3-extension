@@ -2,18 +2,10 @@
 /.idea
 .DS_Store
 
-# Common archive / temporary files
-/.archive
-/.mount
-
 # Runtime environment
 /.docker/*
 !/.docker/.gitkeep
 /.reports
-/.run/*
-!/.run/.gitkeep
-/.vendor/*
-!/.vendor/.gitkeep
 /public
 /tests/**/behat.yaml
 /tests/**/suite.yaml
