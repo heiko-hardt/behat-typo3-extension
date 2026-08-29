@@ -5,11 +5,12 @@
 # Runtime environment
 /.docker/*
 !/.docker/.gitkeep
+/.public-tests
 /.reports
 /public
 /tests/**/behat.yaml
 /tests/**/suite.yaml
-/var
+/vendor
 /composer.lock
 
 # Cache files

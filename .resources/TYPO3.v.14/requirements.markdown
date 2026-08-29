@@ -1,5 +1,7 @@
 Last stable version: 14.3.1
 
+https://get.typo3.org/version/14
+
 Default: PHP 8.2 / MariaDB 10.4
 
 # System Requirements:
@@ -12,8 +14,8 @@ Supported Browsers  Chrome (latest)
                     Firefox (latest)
                     Safari (latest)
 Composer 	        Composer >= 2.1
-Database 	        MariaDB >= 10.4.3 <= 10.99.99 
-                    MySQL >= 8.0.17 <= 8.99.99 
+Database 	        MariaDB >= 10.4.3 <= 10.99.99
+                    MySQL >= 8.0.17 <= 8.99.99
                     PostgreSQL >= 10.0
                     SQLite >= 3.8.3
 Hardware 	        RAM >= 256 MB

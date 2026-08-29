@@ -37,16 +37,16 @@ up:
 	@$(MAKE) -s url
 
 build:
-	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_ID} web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
+	@${CMD_DOCKER_COMPOSE} exec web /usr/local/bin/php /usr/local/bin/composer update --no-interaction --optimize-autoloader
 
 qa:
-	@${CMD_DOCKER_COMPOSE} exec -u ${CMD_DOCKER_USER_ID} web /usr/local/bin/php /usr/local/bin/composer run qa
+	@${CMD_DOCKER_COMPOSE} exec web /usr/local/bin/php /usr/local/bin/composer run qa
 
 down:
 	@${CMD_DOCKER_COMPOSE} down -v
 
 clean:
-	@rm -rf .reports .run/bin .run/public .run/vendor public
+	@rm -rf .public-tests .reports public vendor var
 	@rm -rf tests/Acceptance/behat.yaml tests/Acceptance/Features/Frontend.Minimum/suite.yaml tests/Acceptance/Features/Frontend.Website/suite.yaml
 	@rm -rf composer.json composer.lock
 

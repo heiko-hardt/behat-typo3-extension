@@ -14,7 +14,7 @@ default:
 
     extensions:
         Behat\MinkExtension:
-            base_url: http://localhost:8800
+            base_url: http://localhost:8080
             default_session: webdriver_classic
             webdriver_classic:
                 # browser_name: firefox || chrome

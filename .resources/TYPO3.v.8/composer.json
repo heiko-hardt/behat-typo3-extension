@@ -3,6 +3,7 @@
 	"description": "Behat extension providing TYPO3 context for E2E tests",
 	"type": "behat-extension",
 	"keywords": [
+		"behat",
 		"typo3",
 		"cms",
 		"bdd"
@@ -12,13 +13,6 @@
 		{
 			"name": "Heiko Hardt",
 			"email": "heiko@hardt.dev"
-		}
-	],
-	"repositories": [
-		{
-			"type": "path",
-			"url": ".vendor/*",
-			"symlink": true
 		}
 	],
 	"require-dev": {
@@ -51,7 +45,7 @@
 	"scripts": {
 		"environment": [
 			"mkdir -p .reports/checkstyle",
-			"mkdir -p public"
+			"mkdir -p .public-tests"
 		],
 		"qa": [
 			"@environment",
@@ -87,21 +81,19 @@
 		]
 	},
 	"config": {
-		"vendor-dir": ".run/vendor",
-		"bin-dir": ".run/bin",
 		"allow-plugins": {
 			"typo3/cms-composer-installers": true,
 			"typo3/class-alias-loader": true
-		}
+		},
+		"policy": false
 	},
 	"extra": {
 		"branch-alias": {
 			"dev-main": "8.1.x-dev"
 		},
 		"typo3/cms": {
-			"app-dir": ".run",
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
-			"web-dir": ".run/public"
+			"web-dir": "public"
 		}
 	}
 }

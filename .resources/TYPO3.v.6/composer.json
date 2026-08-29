@@ -3,6 +3,7 @@
 	"description": "Behat extension providing TYPO3 context for E2E tests",
 	"type": "behat-extension",
 	"keywords": [
+		"behat",
 		"typo3",
 		"cms",
 		"bdd"
@@ -14,13 +15,15 @@
 			"email": "heiko@hardt.dev"
 		}
 	],
-	"repositories": [
-		{
+	"repositories": {
+		"typo3-cms-composer-installer": {
 			"type": "path",
-			"url": ".vendor/*",
-			"symlink": true
+			"url": ".packages/typo3-cms-composer-installer",
+			"options": {
+				"symlink": true
+			}
 		}
-	],
+	},
 	"require-dev": {
 		"typo3/cms": "^6.2.31",
 
@@ -42,13 +45,13 @@
 	"autoload-dev": {
 		"psr-4": {
 			"HeikoHardt\\Behat\\TYPO3Extension\\Tests\\": "tests/",
-			"TYPO3\\CMS\\Core\\Tests\\": ".run/public/typo3/sysext/core/Tests/"
+			"TYPO3\\CMS\\Core\\Tests\\": "public/typo3/sysext/core/Tests/"
 		}
 	},
 	"scripts": {
 		"environment": [
 			"mkdir -p .reports/checkstyle",
-			"mkdir -p public"
+			"mkdir -p .public-tests"
 		],
 		"qa": [
 			"@environment",
@@ -62,17 +65,19 @@
 		]
 	},
 	"config": {
-		"vendor-dir": ".run/vendor",
-		"bin-dir": ".run/bin"
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true
+		},
+		"policy": false
 	},
 	"extra": {
 		"branch-alias": {
 			"dev-main": "8.1.x-dev"
 		},
 		"typo3/cms": {
-			"app-dir": ".run",
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
-			"web-dir": ".run/public"
+			"web-dir": "public"
 		}
 	}
 }
